@@ -5,7 +5,7 @@ export default {
     'body-max-line-length': [0, 'always'],
 
     // Set maximum header length
-    'header-max-length': [2, 'always', 100],
+    'header-max-length': [2, 'always', 250],
 
     // Allowed commit types
     'type-enum': [

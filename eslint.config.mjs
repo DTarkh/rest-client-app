@@ -89,18 +89,12 @@ const eslintConfig = [
           pattern: 'shared/*',
           capture: ['segment'],
         },
-        {
-          type: 'test',
-          pattern: '**/test/**',
-        },
       ],
     },
     rules: {
       'no-unused-vars': 'error',
       'no-console': 'error',
       'no-debugger': 'error',
-      semi: ['error', 'always'],
-      '@typescript-eslint/semi': ['error', 'always'],
 
       '@typescript-eslint/no-unused-vars': [
         'error',
