@@ -1,22 +1,6 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  experimental: {
-    // Enable server components
-    serverComponentsExternalPackages: ['supabase'],
-    // Enhanced builds
-    optimizeCss: true,
-    // Turbopack for fast development
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-  },
-
   async headers() {
     return [
       {
@@ -99,12 +83,6 @@ const nextConfig: NextConfig = {
 
   // Compression and performance
   compress: true,
-
-  // Development settings
-  devIndicators: {
-    buildActivity: true,
-    buildActivityPosition: 'bottom-right',
-  },
 
   // TypeScript settings
   typescript: {

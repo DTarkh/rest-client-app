@@ -32,7 +32,6 @@
     "axios": "^1.11.0",
     "eslint-plugin-react": "^7.37.5",
     "localforage": "^1.10.0",
-    "modern-normalize": "^3.0.1",
     "next-intl": "^4.3.5",
     "react": "19.1.1",
     "react-dom": "19.1.1",
