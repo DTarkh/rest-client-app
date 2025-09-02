@@ -6,6 +6,7 @@ import boundaries from 'eslint-plugin-boundaries'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import prettierConfig from 'eslint-config-prettier'
+import globals from 'globals'
 
 const eslintConfig = [
   js.configs.recommended,
@@ -19,7 +20,8 @@ const eslintConfig = [
       'next-env.d.ts',
       '*.config.{js,ts,mjs}',
       '.eslintcache',
-      '*.test.{ts,tsx}',
+      'src/app/_/**',
+      '**/*.d.ts',
     ],
     languageOptions: {
       parser: typescriptParser,
@@ -31,22 +33,13 @@ const eslintConfig = [
         },
       },
       globals: {
-        // React/Next.js
-        React: 'readonly',
-        JSX: 'readonly',
-
-        // Browser/Node.js globals
-        fetch: 'readonly',
-        console: 'readonly',
-        process: 'readonly',
-        global: 'readonly',
-        Buffer: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
-        window: 'readonly',
-        document: 'readonly',
-        navigator: 'readonly',
-        location: 'readonly',
+        ...globals.node,
+        ...globals.browser,
+        ...globals.es2021,
+        ...globals.es2022,
+        ...globals.es2023,
+        ...globals.es2024,
+        ...globals.vitest,
       },
     },
     plugins: {
@@ -96,6 +89,10 @@ const eslintConfig = [
           pattern: 'shared/*',
           capture: ['segment'],
         },
+        {
+          type: 'test',
+          pattern: '**/test/**',
+        },
       ],
     },
     rules: {
@@ -110,6 +107,7 @@ const eslintConfig = [
           varsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/no-explicit-any': 'warn',
 
       'react/react-in-jsx-scope': 'off',
@@ -156,6 +154,10 @@ const eslintConfig = [
               target: ['app', 'pages', 'widgets', 'features', 'entities'],
               allow: 'pub/*.(ts|tsx)',
             },
+            {
+              target: ['test'],
+              allow: '**',
+            },
           ],
         },
       ],
@@ -165,6 +167,11 @@ const eslintConfig = [
           default: 'allow',
           message: '${file.type} не может импортировать (${dependency.type})',
           rules: [
+            {
+              from: ['test'],
+              allow: ['app', 'pages', 'widgets', 'features', 'entities', 'shared'],
+              message: 'Тесты могут импортировать из любых слоев',
+            },
             {
               from: ['shared'],
               disallow: ['app', 'pages', 'widgets', 'features', 'entities'],
