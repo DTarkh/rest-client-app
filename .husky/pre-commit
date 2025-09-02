@@ -1,4 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npm run lint
+# Запускаем lint-staged для проверки изменённых файлов
+npx lint-staged
+
+# Выполняем type-check для всего проекта
+npm run type-check

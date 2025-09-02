@@ -20,7 +20,8 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "analyze": "fsd-crawler"
+    "analyze": "fsd-crawler",
+    "lint-staged": "lint-staged"
   },
   "dependencies": {
     "eslint-plugin-react": "^7.37.5",
@@ -54,11 +55,21 @@
     "globals": "^16.3.0",
     "husky": "^9.1.7",
     "jsdom": "^26.1.0",
+    "lint-staged": "^16.1.6",
     "next": "^15.5.2",
     "prettier": "^3.6.2",
     "prettier-eslint": "^16.4.2",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,scss,md,yml,yaml}": [
+      "prettier --write"
+    ]
   }
 }
