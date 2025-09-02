@@ -99,6 +99,8 @@ const eslintConfig = [
       'no-unused-vars': 'error',
       'no-console': 'error',
       'no-debugger': 'error',
+      'semi': ['error', 'always'],
+      '@typescript-eslint/semi': ['error', 'always'],
 
       '@typescript-eslint/no-unused-vars': [
         'error',
