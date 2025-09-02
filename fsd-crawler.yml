@@ -1,6 +1,6 @@
-srcDir: "."
+srcDir: '.'
 
-outputDir: "./analysis-report"
+outputDir: './analysis-report'
 
 outputFormats:
   - html

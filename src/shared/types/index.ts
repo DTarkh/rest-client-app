@@ -1,4 +1,4 @@
 export type BaseComponent = {
-  className?: string
-  testId?: string
-}
+  className?: string;
+  testId?: string;
+};

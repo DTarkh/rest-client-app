@@ -1,12 +1,12 @@
-import js from '@eslint/js'
-import nextPlugin from '@next/eslint-plugin-next'
-import typescriptEslint from '@typescript-eslint/eslint-plugin'
-import typescriptParser from '@typescript-eslint/parser'
-import boundaries from 'eslint-plugin-boundaries'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooksPlugin from 'eslint-plugin-react-hooks'
-import prettierConfig from 'eslint-config-prettier'
-import globals from 'globals'
+import js from '@eslint/js';
+import nextPlugin from '@next/eslint-plugin-next';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
+import boundaries from 'eslint-plugin-boundaries';
+import reactPlugin from 'eslint-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import prettierConfig from 'eslint-config-prettier';
+import globals from 'globals';
 
 const eslintConfig = [
   js.configs.recommended,
@@ -99,7 +99,7 @@ const eslintConfig = [
       'no-unused-vars': 'error',
       'no-console': 'error',
       'no-debugger': 'error',
-      'semi': ['error', 'always'],
+      semi: ['error', 'always'],
       '@typescript-eslint/semi': ['error', 'always'],
 
       '@typescript-eslint/no-unused-vars': [
@@ -225,6 +225,6 @@ const eslintConfig = [
     },
   },
   prettierConfig,
-]
+];
 
-export default eslintConfig
+export default eslintConfig;

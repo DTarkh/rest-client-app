@@ -1,21 +1,21 @@
-import React from 'react'
-import { clsx } from '../../lib/clsx'
-import { BaseComponent } from '../../types/index'
+import React from 'react';
+import { clsx } from '../../lib/clsx';
+import { BaseComponent } from '../../types/index';
 
 type UiButtonProps = {
-  children: React.ReactNode
-  onClick?: () => void
-  variant?: 'primary' | 'secondary'
-  disabled?: boolean
+  children: React.ReactNode;
+  onClick?: () => void;
+  variant?: 'primary' | 'secondary';
+  disabled?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement> &
-  BaseComponent
+  BaseComponent;
 
-const baseClasses = 'px-4 py-2 rounded font-medium transition-colors'
+const baseClasses = 'px-4 py-2 rounded font-medium transition-colors';
 const variantClasses = {
   primary: 'bg-blue-500 hover:bg-blue-600 text-white',
   secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-900',
-}
-const disabledClasses = 'opacity-50 cursor-not-allowed'
+};
+const disabledClasses = 'opacity-50 cursor-not-allowed';
 
 export function UiButton({
   children,
@@ -31,7 +31,7 @@ export function UiButton({
     variantClasses[variant],
     disabled && disabledClasses,
     className,
-  )
+  );
 
   return (
     <button
@@ -43,5 +43,5 @@ export function UiButton({
     >
       {children}
     </button>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { clsx as cn } from 'clsx'
+import { clsx as cn } from 'clsx';
 
 export function clsx(...args: Parameters<typeof cn>) {
-  return cn(...args)
+  return cn(...args);
 }
