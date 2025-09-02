@@ -14,6 +14,8 @@
     "code-quality": "npm run lint && npm run type-check && npm run format:check",
     "code-quality:fix": "npm run lint:fix && npm run format",
     "prepare": "husky",
+    "commitlint": "commitlint --edit",
+    "commitlint:last": "commitlint --from HEAD~1 --to HEAD --verbose",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
@@ -26,6 +28,8 @@
     "react-dom": "19.1.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.12",
     "@testing-library/jest-dom": "^6.8.0",
