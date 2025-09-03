@@ -1,0 +1,7 @@
+echo "🔍 Runing full checking before push..."
+
+npm run code-quality
+
+npm run test
+
+echo "✅ App checked!"

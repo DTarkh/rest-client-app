@@ -1,0 +1,19 @@
+{
+  "common": {
+    "title": "Swagger Lite MVP",
+    "welcome": "Welcome to REST API Client",
+    "loading": "Loading..."
+  },
+  "navigation": {
+    "home": "Home",
+    "requests": "Requests",
+    "history": "History",
+    "settings": "Settings"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "email": "Email",
+    "password": "Password"
+  }
+}
