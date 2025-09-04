@@ -66,7 +66,7 @@ const eslintConfig = [
         },
         {
           type: 'pages',
-          pattern: 'pages/*',
+          pattern: 'pages-slice/*',
           capture: ['page'],
         },
         {
