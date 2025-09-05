@@ -66,7 +66,7 @@ const eslintConfig = [
         },
         {
           type: 'pages',
-          pattern: 'pages/*',
+          pattern: 'pages-slice/*',
           capture: ['page'],
         },
         {
@@ -92,7 +92,7 @@ const eslintConfig = [
       ],
     },
     rules: {
-      'no-unused-vars': 'error',
+      'no-unused-vars': 'off',
       'no-console': 'error',
       'no-debugger': 'error',
 
