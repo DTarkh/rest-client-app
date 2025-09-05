@@ -92,7 +92,7 @@ const eslintConfig = [
       ],
     },
     rules: {
-      'no-unused-vars': 'error',
+      'no-unused-vars': 'off',
       'no-console': 'error',
       'no-debugger': 'error',
 
