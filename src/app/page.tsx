@@ -2,6 +2,8 @@
 import Image from 'next/image';
 import { UiButton } from '../shared/ui/UiButton/UiButton';
 import { logger } from '../shared/lib/logger';
+import { UpdateLang } from '../features/i18n';
+import { TFeatureButton } from '../features/t-feature';
 
 export default function Home() {
   return (
@@ -52,6 +54,8 @@ export default function Home() {
           </a>
         </div>
         <UiButton onClick={() => logger('!!! clicked')}>Custom Button</UiButton>
+        <UpdateLang />
+        <TFeatureButton />
       </main>
       <footer className='row-start-3 flex gap-[24px] flex-wrap items-center justify-center'>
         <a
