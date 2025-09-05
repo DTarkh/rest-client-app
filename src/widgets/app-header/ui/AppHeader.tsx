@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { routes } from '@/src/shared/constants';
+import { Button } from '@/src/shared/ui/button';
 
 export function AppHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,6 +55,7 @@ export function AppHeader() {
             >
               Sign in
             </Link>
+            <Button>dfeef</Button>
             <Link
               href={routes.register}
               className='text-sm font-medium  hover:text-gray-600 transition-colors  text-gray-800'
