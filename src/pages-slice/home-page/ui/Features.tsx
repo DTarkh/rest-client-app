@@ -61,12 +61,8 @@ export function Features() {
     <section id='features' className='py-20 px-4 '>
       <div className='container mx-auto max-w-6xl'>
         <div className='text-center mb-16'>
-          <h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>
-            Everything You Need for API Testing
-          </h2>
-          <p className='text-lg text-gray-600 max-w-2xl mx-auto'>
-            Professional-grade features designed to make API testing efficient and collaborative
-          </p>
+          <h2 className='text-3xl md:text-4xl font-bold text-gray-900 mb-4'>{t('title')}</h2>
+          <p className='text-lg text-gray-600 max-w-2xl mx-auto'>{t('description')}</p>
         </div>
 
         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
