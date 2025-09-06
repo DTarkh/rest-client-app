@@ -1,7 +1,6 @@
 import { ReactNode, useId, useState, useRef, useEffect } from 'react';
-import { clsx } from '../../lib/clsx';
+import { cn } from '../../lib/cn';
 
-// Тип для элементов списка
 type BaseOption = {
   id: string | number;
 };
@@ -19,10 +18,6 @@ export type UiSelectProps<T extends BaseOption | undefined> = {
   widthClassName?: string;
 };
 
-/**
- * Кастомный выпадающий список, без сторонних библиотек.
- * Все стили реализованы через tailwindcss классы.
- */
 export function UiSelect<T extends BaseOption | undefined>({
   onChange,
   value,
@@ -36,11 +31,10 @@ export function UiSelect<T extends BaseOption | undefined>({
   widthClassName,
 }: UiSelectProps<T>) {
   const id = useId();
-  const [open, setOpen] = useState(false); // Состояние для открытия списка
-  const [activeIdx, setActiveIdx] = useState<number | null>(null); // Активный элемент для навигации
+  const [open, setOpen] = useState(false);
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Закрытие по клику вне компонента
   useEffect(() => {
     if (!open) return;
     const onClick = (e: MouseEvent) => {
@@ -52,7 +46,6 @@ export function UiSelect<T extends BaseOption | undefined>({
     return () => document.removeEventListener('mousedown', onClick);
   }, [open]);
 
-  // Закрытие по Escape и навигация стрелками
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -77,7 +70,6 @@ export function UiSelect<T extends BaseOption | undefined>({
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [open, options, activeIdx, onChange]);
 
-  // Получение индекса выбранного элемента для навигации
   useEffect(() => {
     if (open && value && options) {
       const idx = options.findIndex(opt => opt?.id === value?.id);
@@ -85,7 +77,6 @@ export function UiSelect<T extends BaseOption | undefined>({
     }
   }, [open, value, options]);
 
-  // Иконка стрелки вниз (SVG, не библиотечная)
   const ArrowIcon = (
     <svg
       width={20}
@@ -108,7 +99,7 @@ export function UiSelect<T extends BaseOption | undefined>({
 
   return (
     <div
-      className={clsx(className, widthClassName, 'flex flex-col gap-1')}
+      className={cn(className, widthClassName, 'flex flex-col gap-1')}
       ref={containerRef}
       tabIndex={-1}
     >
@@ -118,11 +109,10 @@ export function UiSelect<T extends BaseOption | undefined>({
         </label>
       )}
 
-      {/* Кнопка выбора */}
       <button
         id={id}
         type='button'
-        className={clsx(
+        className={cn(
           'relative rounded border border-slate-300 focus:border-teal-600 h-10 outline-none z-10 w-full bg-transparent flex items-center px-2 transition',
           open && 'border-teal-600',
         )}
@@ -130,17 +120,15 @@ export function UiSelect<T extends BaseOption | undefined>({
         aria-haspopup='listbox'
         aria-expanded={open}
       >
-        {/* Превью выбранного элемента */}
         {renderPreview?.(value) ??
           (value && <div className='whitespace-nowrap'>{getLabel(value)}</div>)}
         {ArrowIcon}
       </button>
-      {/* Список вариантов */}
       {open && (
         <ul
           role='listbox'
           tabIndex={-1}
-          className={clsx(
+          className={cn(
             'absolute mt-1 max-h-60  overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 z-20 sm:text-sm',
             widthClassName,
           )}
@@ -154,7 +142,7 @@ export function UiSelect<T extends BaseOption | undefined>({
                   key={option?.id ?? 'empty'}
                   role='option'
                   aria-selected={selected}
-                  className={clsx(
+                  className={cn(
                     'relative flex cursor-pointer select-none p-4',
                     active && 'bg-teal-600 text-white',
                     selected && 'bg-teal-500 text-white',
@@ -167,7 +155,6 @@ export function UiSelect<T extends BaseOption | undefined>({
                     setOpen(false);
                   }}
                 >
-                  {/* Отображение варианта */}
                   {renderOption(option, { selected, active })}
                 </li>
               );

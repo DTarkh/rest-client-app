@@ -44,35 +44,6 @@ const nextConfig: NextConfig = {
     domains: ['supabase.co'],
   },
 
-  webpack: (config, { dev, isServer }) => {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    });
-
-    // Production optimizations
-    if (!dev && !isServer) {
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-          common: {
-            name: 'common',
-            minChunks: 2,
-            chunks: 'all',
-            enforce: true,
-          },
-        },
-      };
-    }
-
-    return config;
-  },
-
   // Environment variables for Supabase and API
   env: {
     SUPABASE_KEY: process.env.SUPABASE_KEY,

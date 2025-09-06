@@ -1,5 +1,5 @@
 'use client';
-import { clsx } from '../../../shared/lib/clsx';
+import { cn } from '../../../shared/lib/cn';
 import { UiSelect } from '../../../shared/ui/UiSelect/UiSelect';
 import { Lang, useLang } from '../model/lang.store';
 
@@ -23,7 +23,7 @@ export function UpdateLang({ className }: { className?: string }) {
 
   return (
     <UiSelect
-      className={clsx(className)}
+      className={cn(className)}
       widthClassName='w-[80px]'
       options={langOptions}
       value={langOption}
