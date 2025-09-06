@@ -1,6 +1,15 @@
-export type Feature = {
+'use client';
+
+import { createI18nModule } from '@/src/shared/lib/i18n';
+import { featuresTranstaltions } from '../i18n';
+
+const useI18n = createI18nModule(featuresTranstaltions);
+
+type TranslateKey = keyof typeof featuresTranstaltions;
+type Feature = {
   icon: string;
   title: string;
+  translateKey: TranslateKey;
   description: string;
 };
 
@@ -8,38 +17,46 @@ export const FEATURES: Feature[] = [
   {
     icon: '⚡',
     title: 'Fast Request Testing',
+    translateKey: 'requestTesting',
     description:
       'Send HTTP requests with all methods, custom headers, and bodies. Get instant responses with status details.',
   },
   {
     icon: '💻',
     title: 'Code Generation',
+    translateKey: 'codeGeneration',
     description:
       'Generate snippets in cURL, JavaScript, Python, Java, C#, and Go for easy integration.',
   },
   {
     icon: '🕒',
     title: 'Request History',
+    translateKey: 'requestHistory',
     description: 'Track all requests with response times, status codes, and payload sizes.',
   },
   {
     icon: '🌐',
     title: 'Variables System',
+    translateKey: 'variablesSystem',
     description: 'Use dynamic variables in URLs, headers, and bodies with {{variableName}} syntax.',
   },
   {
     icon: '👥',
     title: 'Team Collaboration',
+    translateKey: 'teamCollaboration',
     description: 'Share requests and collections. Collaborate with shared workspaces.',
   },
   {
     icon: '🛡️',
     title: 'Secure Authentication',
+    translateKey: 'secureAuthentication',
     description: 'Protected routes and user management for enterprise-grade security.',
   },
 ];
 
 export function Features() {
+  const { t } = useI18n();
+
   return (
     <section id='features' className='py-20 px-4 '>
       <div className='container mx-auto max-w-6xl'>
@@ -62,9 +79,9 @@ export function Features() {
                 <div className='p-2 bg-purple-50 rounded-lg'>
                   <span className='text-purple-600 text-xl'>{f.icon}</span>
                 </div>
-                <h3 className='text-lg font-semibold text-gray-900'>{f.title}</h3>
+                <h3 className='text-lg font-semibold text-gray-900'>{t(f.translateKey)}</h3>
               </div>
-              <p className='text-gray-600'>{f.description}</p>
+              <p className='text-gray-600'>{t((f.translateKey + 'Description') as TranslateKey)}</p>
             </article>
           ))}
         </div>

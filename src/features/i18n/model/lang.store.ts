@@ -13,7 +13,7 @@ type LangStore = {
 const languageLStorage = new LocalStorageFactory('lang');
 export const useLang = create<LangStore>((set, get) => ({
   isLoading: true,
-  lang: 'ru',
+  lang: 'en',
   loadLang: async () => {
     const lang = languageLStorage.get<Lang>() ?? get().lang;
     set({ lang, isLoading: false });

@@ -24,7 +24,7 @@ export function UpdateLang({ className }: { className?: string }) {
   return (
     <UiSelect
       className={cn(className)}
-      widthClassName='w-[80px]'
+      widthClassName='w-[50px]'
       options={langOptions}
       value={langOption}
       onChange={onChangeLang}

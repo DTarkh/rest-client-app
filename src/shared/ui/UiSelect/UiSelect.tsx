@@ -113,8 +113,7 @@ export function UiSelect<T extends BaseOption | undefined>({
         id={id}
         type='button'
         className={cn(
-          'relative rounded border border-slate-300 focus:border-teal-600 h-10 outline-none z-10 w-full bg-transparent flex items-center px-2 transition',
-          open && 'border-teal-600',
+          'relative rounded border border-slate-300  h-8 outline-none z-10 w-full bg-transparent flex items-center px-2 transition',
         )}
         onClick={() => setOpen(v => !v)}
         aria-haspopup='listbox'
@@ -129,7 +128,7 @@ export function UiSelect<T extends BaseOption | undefined>({
           role='listbox'
           tabIndex={-1}
           className={cn(
-            'absolute mt-1 max-h-60  overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 z-20 sm:text-sm',
+            'absolute -bottom-[42px] max-h-60  overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 z-20 sm:text-sm',
             widthClassName,
           )}
         >
@@ -143,9 +142,9 @@ export function UiSelect<T extends BaseOption | undefined>({
                   role='option'
                   aria-selected={selected}
                   className={cn(
-                    'relative flex cursor-pointer select-none p-4',
-                    active && 'bg-teal-600 text-white',
-                    selected && 'bg-teal-500 text-white',
+                    'relative flex cursor-pointer select-none p-1',
+                    active && 'bg-gray-100 ',
+                    selected && 'bg-gray-300 ',
                     !active && !selected && 'text-slate-900',
                   )}
                   onMouseEnter={() => setActiveIdx(idx)}
@@ -160,7 +159,7 @@ export function UiSelect<T extends BaseOption | undefined>({
               );
             })
           ) : (
-            <li className='p-4 text-slate-400'>Нет вариантов</li>
+            <li className='p-4 text-slate-400'>No options</li>
           )}
         </ul>
       )}
