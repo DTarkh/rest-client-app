@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { LocalStorageFactory } from '../../../shared/lib/localStorage';
+import { LocalStorageFactory } from '@/src/shared/lib/localStorage';
 
 export type Lang = 'ru' | 'en';
 

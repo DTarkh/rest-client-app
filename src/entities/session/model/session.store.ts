@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Session } from './types';
-import { LocalStorageFactory } from '../../../shared/lib/localStorage';
+import { LocalStorageFactory } from '@/src/shared/lib/localStorage';
 
 type SessionStore = {
   currentSession?: Session;
