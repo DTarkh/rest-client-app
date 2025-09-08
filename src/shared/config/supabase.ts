@@ -17,6 +17,10 @@ class Supabase {
     return this.supabase;
   };
 
+  public getSession = async () => {
+    return await this.supabase.auth.getSession();
+  };
+
   public getUser = async (): Promise<UserResponse> => {
     return await this.supabase.auth.getUser();
   };

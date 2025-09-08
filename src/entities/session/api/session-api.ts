@@ -1,13 +1,11 @@
-import type { SupabaseClient } from '@supabase/supabase-js';
 import { useSession } from '../model/session.store';
+import { supabase } from '@/src/shared/config/supabase';
 
 export class SessionAPI {
-  constructor(private supabase: SupabaseClient) {}
-
-  async initializeSession() {
+  static async initializeSession() {
     const {
       data: { session },
-    } = await this.supabase.auth.getSession();
+    } = await supabase.getSession();
 
     if (session) {
       useSession.getState().setCurrentSession({
@@ -19,8 +17,8 @@ export class SessionAPI {
     }
   }
 
-  subscribeToAuthChanges() {
-    return this.supabase.auth.onAuthStateChange((event, session) => {
+  static subscribeToAuthChanges() {
+    return supabase.getSupabase().auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session) {
         useSession.getState().setCurrentSession({
           token: session.access_token,

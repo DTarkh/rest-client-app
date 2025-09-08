@@ -139,6 +139,10 @@ const eslintConfig = [
               allow: 'index.ts',
             },
             {
+              target: [['shared', { segment: 'config' }]],
+              allow: '*.(ts|tsx)',
+            },
+            {
               target: [['shared', { segment: '(ui|api)' }]],
               allow: '**',
             },
