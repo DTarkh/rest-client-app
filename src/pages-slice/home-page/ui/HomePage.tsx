@@ -1,8 +1,9 @@
 import { AppHeader } from '@/src/widgets/app-header';
-import { CallToAction } from '@/src/widgets/call-to-action';
-import { Features } from '@/src/widgets/features';
 import { Footer } from '@/src/widgets/footer';
-import { Hero } from '@/src/widgets/hero';
+
+import { Features } from './Features';
+import { Hero } from './Hero';
+import { CallToAction } from './CallToAction';
 
 export function HomePage() {
   return (

@@ -4,10 +4,14 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { routes } from '@/src/shared/constants';
+import { UpdateLang } from '../../../features/i18n';
+import { useI18n } from '../model/i18n';
 
 export function AppHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const { t } = useI18n();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,20 +50,21 @@ export function AppHeader() {
               className='btn text-sm font-medium hover:text-gray-600 transition-colors
                  text-gray-800'
             >
-              Get Started
+              {t('button')}
             </Link>
             <Link
               href={routes.login}
               className='text-sm font-medium  hover:text-gray-600 transition-colors text-gray-800'
             >
-              Sign in
+              {t('signIn')}
             </Link>
             <Link
               href={routes.register}
               className='text-sm font-medium  hover:text-gray-600 transition-colors  text-gray-800'
             >
-              Register
+              {t('register')}
             </Link>
+            <UpdateLang />
           </nav>
 
           <button className='md:hidden p-2' onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -79,19 +84,19 @@ export function AppHeader() {
                 className='text-sm font-medium hover:text-gray-600 transition-colors
                  text-gray-800'
               >
-                Get Started
+                {t('button')}
               </Link>
               <Link
                 href={routes.login}
                 className='text-sm font-medium  hover:text-gray-600 transition-colors text-gray-800'
               >
-                Sign in
+                {t('signIn')}
               </Link>
               <Link
                 href={routes.register}
                 className='text-sm font-medium  hover:text-gray-600 transition-colors  text-gray-800'
               >
-                Register
+                {t('register')}
               </Link>
             </nav>
           </div>
