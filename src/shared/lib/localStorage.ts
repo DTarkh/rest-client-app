@@ -10,7 +10,7 @@ type JSONSerializable =
 
 export class LocalStorageFactory<
   Key extends string = string,
-  Value extends JSONSerializable = string,
+  Value extends JSONSerializable = string | JSONSerializable,
 > {
   private storageKey: string;
 

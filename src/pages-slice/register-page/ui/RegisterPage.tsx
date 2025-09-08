@@ -1,3 +1,6 @@
+import { RegisterForm } from '@/src/features/register';
+import { AuthLayout } from '@/src/widgets/layouts';
+
 export function RegisterPage() {
-  return <div>RegisterPage</div>;
+  return <AuthLayout formSlot={<RegisterForm />} />;
 }
