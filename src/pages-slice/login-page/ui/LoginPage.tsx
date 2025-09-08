@@ -1,3 +1,6 @@
+import { LoginForm } from '@/src/features/sign-in';
+import { AuthLayout } from '@/src/widgets/layouts';
+
 export function LoginPage() {
-  return <div>LoginPage</div>;
+  return <AuthLayout formSlot={<LoginForm />} />;
 }

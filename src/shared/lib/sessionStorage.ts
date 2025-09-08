@@ -10,7 +10,7 @@ type JSONSerializable =
 
 export class SessionStorageApi<
   Key extends string = string,
-  Value extends JSONSerializable = string,
+  Value extends JSONSerializable = string | JSONSerializable,
 > {
   private storageKey: string;
 

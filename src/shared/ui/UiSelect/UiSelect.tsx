@@ -1,5 +1,5 @@
 import { ReactNode, useId, useState, useRef, useEffect } from 'react';
-import { cn } from '../../lib/cn';
+import { cn } from '@/src/shared/lib/cn';
 
 type BaseOption = {
   id: string | number;
