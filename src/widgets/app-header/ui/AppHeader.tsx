@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { routes } from '@/src/shared/constants';
-import { UpdateLang } from '../../../features/i18n';
+import { UpdateLang } from '@/src/features/i18n';
 import { useI18n } from '../model/i18n';
 
 export function AppHeader() {
