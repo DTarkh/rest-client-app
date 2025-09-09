@@ -1,3 +1,3 @@
 export function HistoryPage() {
-  return <div>HistoryPage</div>;
+  return <div className='min-h-screen pt-20 md:pl-64'>HistoryPage</div>;
 }
