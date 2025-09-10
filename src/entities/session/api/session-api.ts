@@ -5,7 +5,7 @@ export class SessionAPI {
   static async initializeSession() {
     const {
       data: { session },
-    } = await supabase.getSession();
+    } = await supabase.auth.getSession();
 
     if (session) {
       useSession.getState().setCurrentSession({
@@ -18,7 +18,7 @@ export class SessionAPI {
   }
 
   static subscribeToAuthChanges() {
-    return supabase.getSupabase().auth.onAuthStateChange((event, session) => {
+    return supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session) {
         useSession.getState().setCurrentSession({
           token: session.access_token,
