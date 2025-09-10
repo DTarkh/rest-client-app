@@ -3,6 +3,7 @@
 import { LogOut } from 'lucide-react';
 import { Button } from '@/src/shared/ui/button';
 import { useSignOut } from '../model/use-sign-out';
+import { useI18n } from '../model/i18n';
 
 type SignOutButtonProps = {
   variant?: 'default' | 'outline' | 'ghost';
@@ -11,6 +12,7 @@ type SignOutButtonProps = {
 
 export const SignOutButton = ({ variant = 'outline', size = 'default' }: SignOutButtonProps) => {
   const { mutate: signOut, isPending } = useSignOut();
+  const { t } = useI18n();
 
   return (
     <Button
@@ -21,7 +23,7 @@ export const SignOutButton = ({ variant = 'outline', size = 'default' }: SignOut
       className='gap-2'
     >
       <LogOut size={16} />
-      {isPending ? 'Выходим...' : 'Выйти'}
+      {isPending ? t('loggingOut') : t('logout')}
     </Button>
   );
 };

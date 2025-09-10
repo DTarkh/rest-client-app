@@ -113,7 +113,9 @@ export const AuthButtons = () => {
   if (currentSession) {
     return (
       <div className='flex items-center gap-3'>
-        <span className='text-sm text-gray-600'>Добро пожаловать, {currentSession?.email}</span>
+        <span className='text-sm text-gray-600'>
+          {t('welcome')}, {currentSession?.email}
+        </span>
         <SignOutButton />
       </div>
     );
