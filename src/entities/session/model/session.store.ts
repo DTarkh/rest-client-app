@@ -1,30 +1,74 @@
 import { create } from 'zustand';
-import { Session } from './types';
-import { LocalStorageFactory } from '@/src/shared/lib/localStorage';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import type { SessionState } from './types';
+import { supabase } from '@/src/shared/config/supabase';
 
-type SessionStore = {
-  currentSession?: Session;
-  isLoading: boolean;
-  setCurrentSession: (session: Session) => void;
-  loadCurrentSession: () => void;
-  removeSession: () => void;
-};
+export const useSessionStore = create<SessionState>()(
+  persist(
+    (set, get) => ({
+      user: null,
+      isLoading: true,
+      isAuthenticated: false,
+      accessToken: null,
+      refreshToken: null,
+      expiresAt: null,
 
-const sessionLStorage = new LocalStorageFactory('session');
+      setSession: session => {
+        set({
+          ...session,
+          isAuthenticated: !!session.user,
+          isLoading: false,
+        });
+      },
 
-export const useSession = create<SessionStore>(set => ({
-  currentSession: undefined,
-  isLoading: true,
-  loadCurrentSession: async () => {
-    const session = sessionLStorage.get<Session>();
-    set({ currentSession: session, isLoading: false });
-  },
-  setCurrentSession: session => {
-    sessionLStorage.set(session);
-    set(() => ({ currentSession: session }));
-  },
-  removeSession: () => {
-    sessionLStorage.remove();
-    set(() => ({ currentSession: undefined }));
-  },
-}));
+      clearSession: () => {
+        set({
+          user: null,
+          isLoading: false,
+          isAuthenticated: false,
+          accessToken: null,
+          refreshToken: null,
+          expiresAt: null,
+        });
+      },
+
+      refreshSession: async () => {
+        try {
+          const { data, error } = await supabase.auth.refreshSession();
+          if (error) throw error;
+
+          const { session } = data;
+          if (session) {
+            get().setSession({
+              user: session.user,
+              isLoading: false,
+              isAuthenticated: true,
+              accessToken: session.access_token,
+              refreshToken: session.refresh_token,
+              expiresAt: session.expires_at,
+            });
+          }
+        } catch (error) {
+          get().clearSession();
+          throw error;
+        }
+      },
+
+      isTokenExpired: () => {
+        const { expiresAt } = get();
+        if (!expiresAt) return true;
+        return Date.now() / 1000 >= expiresAt;
+      },
+    }),
+    {
+      name: 'session-storage',
+      storage: createJSONStorage(() => localStorage),
+      partialize: state => ({
+        user: state.user,
+        accessToken: state.accessToken,
+        refreshToken: state.refreshToken,
+        expiresAt: state.expiresAt,
+      }),
+    },
+  ),
+);

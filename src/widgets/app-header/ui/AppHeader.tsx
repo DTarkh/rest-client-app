@@ -7,7 +7,7 @@ import { routes } from '@/src/shared/constants';
 import { UpdateLang } from '@/src/features/i18n';
 import { useI18n } from '../model/i18n';
 import { SignOutButton } from '@/src/features/sign-out';
-import { useSession } from '@/src/entities/session';
+import { useSessionStore } from '@/src/entities/session';
 
 export function AppHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -99,7 +99,7 @@ export function AppHeader() {
 
 export const AuthButtons = () => {
   const { t } = useI18n();
-  const { currentSession, isLoading } = useSession();
+  const { isAuthenticated, isLoading, user } = useSessionStore();
 
   if (isLoading) {
     return (
@@ -110,11 +110,11 @@ export const AuthButtons = () => {
     );
   }
 
-  if (currentSession) {
+  if (isAuthenticated) {
     return (
       <div className='flex items-center gap-3'>
         <span className='text-sm text-gray-600'>
-          {t('welcome')}, {currentSession?.email}
+          {t('welcome')}, {user?.email}
         </span>
         <SignOutButton />
       </div>

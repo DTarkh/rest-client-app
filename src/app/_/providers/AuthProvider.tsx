@@ -1,11 +1,11 @@
 'use client';
 
-import { useSession } from '@/src/entities/session';
+import { useSessionStore } from '@/src/entities/session';
 import { SessionAPI } from '@/src/entities/session/api/session-api';
 import { useEffect } from 'react';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { isLoading } = useSession();
+  const { isLoading } = useSessionStore();
 
   useEffect(() => {
     SessionAPI.initializeSession();
