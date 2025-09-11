@@ -4,7 +4,7 @@ import './globals.css';
 import type React from 'react';
 import { AppProvider } from './_/providers/AppProvider';
 import { AuthProvider } from './_/providers/AuthProvider';
-import TanstackQueryProvider from './_/providers/TanstackQueryProvidet';
+import TanstackQueryProvider from './_/providers/TanstackQueryProvider';
 import { Toaster } from 'sonner';
 
 const geistSans = Geist({
