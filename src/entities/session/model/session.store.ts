@@ -1,74 +1,37 @@
+'use client';
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import type { SessionState } from './types';
-import { supabase } from '@/src/shared/config/supabase';
+import type { SessionStore } from './types';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
-export const useSessionStore = create<SessionState>()(
-  persist(
-    (set, get) => ({
-      user: null,
-      isLoading: true,
-      isAuthenticated: false,
-      accessToken: null,
-      refreshToken: null,
-      expiresAt: null,
+export const useSessionStore = create<SessionStore>(set => ({
+  session: null,
+  user: null,
+  isLoading: true,
 
-      setSession: session => {
-        set({
-          ...session,
-          isAuthenticated: !!session.user,
-          isLoading: false,
-        });
-      },
-
-      clearSession: () => {
-        set({
-          user: null,
-          isLoading: false,
-          isAuthenticated: false,
-          accessToken: null,
-          refreshToken: null,
-          expiresAt: null,
-        });
-      },
-
-      refreshSession: async () => {
-        try {
-          const { data, error } = await supabase.auth.refreshSession();
-          if (error) throw error;
-
-          const { session } = data;
-          if (session) {
-            get().setSession({
-              user: session.user,
-              isLoading: false,
-              isAuthenticated: true,
-              accessToken: session.access_token,
-              refreshToken: session.refresh_token,
-              expiresAt: session.expires_at,
-            });
-          }
-        } catch (error) {
-          get().clearSession();
-          throw error;
-        }
-      },
-
-      isTokenExpired: () => {
-        const { expiresAt } = get();
-        if (!expiresAt) return true;
-        return Date.now() / 1000 >= expiresAt;
-      },
+  setSession: session =>
+    set({
+      session,
+      user: session?.user ?? null,
+      isLoading: false,
     }),
-    {
-      name: 'session-storage',
-      storage: createJSONStorage(() => localStorage),
-      partialize: state => ({
-        user: state.user,
-        accessToken: state.accessToken,
-        refreshToken: state.refreshToken,
-        expiresAt: state.expiresAt,
-      }),
-    },
-  ),
-);
+
+  refresh: async () => {
+    const supabase = createClientComponentClient();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    set({
+      session: session ?? null,
+      user: session?.user ?? null,
+      isLoading: false,
+    });
+  },
+
+  signOut: async () => {
+    const supabase = createClientComponentClient();
+    await supabase.auth.signOut();
+    set({ session: null, user: null, isLoading: false });
+  },
+
+  clear: () => set({ session: null, user: null, isLoading: false }),
+}));

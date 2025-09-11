@@ -1,31 +1,37 @@
 'use client';
 
-import { useSessionStore } from '@/src/entities/session';
-import { SessionAPI } from '@/src/entities/session/api/session-api';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useSessionStore } from '@/src/entities/session/model/session.store';
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { isLoading } = useSessionStore();
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const { refresh, setSession, isLoading } = useSessionStore();
 
   useEffect(() => {
-    SessionAPI.initializeSession();
+    refresh();
 
+    const supabase = createClientComponentClient();
     const {
       data: { subscription },
-    } = SessionAPI.subscribeToAuthChanges();
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session ?? null);
 
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
+      if (event === 'SIGNED_OUT') {
+        router.replace('/login');
+        router.refresh();
+      }
+    });
 
-  if (isLoading) {
+    return () => subscription.unsubscribe();
+  }, [refresh, setSession, router]);
+
+  if (isLoading)
     return (
       <div className='min-h-screen flex items-center justify-center'>
         <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600'></div>
       </div>
     );
-  }
-
   return <>{children}</>;
-};
+}

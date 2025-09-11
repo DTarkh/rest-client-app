@@ -7,8 +7,8 @@ const AUTH_ONLY = ['/login', '/register'];
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
-
   const supabase = createMiddlewareClient({ req, res });
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -20,13 +20,14 @@ export async function middleware(req: NextRequest) {
   if (isProtected && !user) {
     const url = req.nextUrl.clone();
     url.pathname = '/login';
+    url.search = '';
     return NextResponse.redirect(url);
   }
 
   if (isAuthOnly && user) {
-    const redirect = req.nextUrl.searchParams.get('redirect') || '/';
     const url = req.nextUrl.clone();
-    url.pathname = redirect;
+    url.pathname = '/';
+    url.search = '';
     return NextResponse.redirect(url);
   }
 

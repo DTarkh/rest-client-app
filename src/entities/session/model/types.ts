@@ -1,17 +1,11 @@
-import { User } from '@supabase/supabase-js';
+import type { Session, User } from '@supabase/supabase-js';
 
-export type UserSession = {
+export type SessionStore = {
+  session: Session | null;
   user: User | null;
   isLoading: boolean;
-  isAuthenticated: boolean;
-  accessToken: string | null;
-  refreshToken: string | null;
-  expiresAt: number | null | undefined;
+  refresh: () => Promise<void>;
+  signOut: () => Promise<void>;
+  setSession: (session: Session | null) => void;
+  clear: () => void;
 };
-
-export type SessionState = {
-  setSession: (session: UserSession) => void;
-  clearSession: () => void;
-  refreshSession: () => Promise<void>;
-  isTokenExpired: () => boolean;
-} & UserSession;

@@ -1,8 +1,9 @@
-import { supabase } from '@/src/shared/config/supabase';
 import { LoginFormData } from '../model/validation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export const signInAPI = {
   async signIn(credentials: LoginFormData) {
+    const supabase = createClientComponentClient();
     const { data, error } = await supabase.auth.signInWithPassword({
       email: credentials.email,
       password: credentials.password,

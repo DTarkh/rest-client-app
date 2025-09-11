@@ -99,7 +99,7 @@ export function AppHeader() {
 
 export const AuthButtons = () => {
   const { t } = useI18n();
-  const { isAuthenticated, isLoading, user } = useSessionStore();
+  const { isLoading, user } = useSessionStore();
 
   if (isLoading) {
     return (
@@ -110,7 +110,7 @@ export const AuthButtons = () => {
     );
   }
 
-  if (isAuthenticated) {
+  if (user) {
     return (
       <div className='flex items-center gap-3'>
         <span className='text-sm text-gray-600'>
