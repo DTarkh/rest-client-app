@@ -26,12 +26,5 @@ export const useSessionStore = create<SessionStore>(set => ({
       isLoading: false,
     });
   },
-
-  signOut: async () => {
-    const supabase = createClientComponentClient();
-    await supabase.auth.signOut();
-    set({ session: null, user: null, isLoading: false });
-  },
-
   clear: () => set({ session: null, user: null, isLoading: false }),
 }));

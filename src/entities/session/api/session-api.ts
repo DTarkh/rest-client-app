@@ -1,4 +1,3 @@
-// session-api.ts
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useSessionStore } from '../model/session.store';
 

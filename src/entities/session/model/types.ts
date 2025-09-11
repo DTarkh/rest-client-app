@@ -5,7 +5,6 @@ export type SessionStore = {
   user: User | null;
   isLoading: boolean;
   refresh: () => Promise<void>;
-  signOut: () => Promise<void>;
   setSession: (session: Session | null) => void;
   clear: () => void;
 };
