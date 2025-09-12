@@ -15,8 +15,8 @@ export default function ActiveLink({ children, href }: { children: ReactNode; hr
       className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors
         ${
           isActive
-            ? 'bg-amber-500 text-gray-900'
-            : 'text-gray-700 hover:bg-amber-400 hover:text-gray-900'
+            ? 'bg-green-600 text-gray-white text-white font-semibold'
+            : 'hover:bg-green-700 hover:text-white  hover:font-semibold text-gray-800 font-semibold'
         }`}
     >
       {children}

@@ -1,2 +1,2 @@
-export { useSession } from './model/session.store';
-export type { Session } from './model/types';
+export { useSessionStore } from './model/session.store';
+export { SessionAPI } from './api/session-api';

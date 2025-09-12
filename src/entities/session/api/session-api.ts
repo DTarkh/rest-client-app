@@ -1,31 +1,38 @@
-import { useSession } from '../model/session.store';
-import { supabase } from '@/src/shared/config/supabase';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useSessionStore } from '../model/session.store';
 
 export class SessionAPI {
   static async initializeSession() {
-    const {
-      data: { session },
-    } = await supabase.getSession();
-
-    if (session) {
-      useSession.getState().setCurrentSession({
-        token: session.access_token,
-        email: session.user.email ?? '',
-      });
-    } else {
-      useSession.getState().removeSession();
+    const supabase = createClientComponentClient();
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session) {
+        useSessionStore.setState({
+          session,
+          user: session.user,
+          isLoading: false,
+        });
+      } else {
+        useSessionStore.getState().clear();
+      }
+    } catch {
+      useSessionStore.getState().clear();
     }
   }
 
   static subscribeToAuthChanges() {
-    return supabase.getSupabase().auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
-        useSession.getState().setCurrentSession({
-          token: session.access_token,
-          email: session.user.email ?? '',
+    const supabase = createClientComponentClient();
+    return supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        useSessionStore.setState({
+          session,
+          user: session.user,
+          isLoading: false,
         });
-      } else if (event === 'SIGNED_OUT') {
-        useSession.getState().removeSession();
+      } else {
+        useSessionStore.getState().clear();
       }
     });
   }

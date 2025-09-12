@@ -59,6 +59,7 @@ const eslintConfig = [
         version: 'detect',
       },
       'boundaries/include': ['src/**/*'],
+      'boundaries/ignore': ['src/middleware.{js,ts}'],
       'boundaries/elements': [
         {
           type: 'app',

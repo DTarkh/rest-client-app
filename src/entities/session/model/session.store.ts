@@ -1,30 +1,30 @@
+'use client';
 import { create } from 'zustand';
-import { Session } from './types';
-import { LocalStorageFactory } from '@/src/shared/lib/localStorage';
+import type { SessionStore } from './types';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
-type SessionStore = {
-  currentSession?: Session;
-  isLoading: boolean;
-  setCurrentSession: (session: Session) => void;
-  loadCurrentSession: () => void;
-  removeSession: () => void;
-};
-
-const sessionLStorage = new LocalStorageFactory('session');
-
-export const useSession = create<SessionStore>(set => ({
-  currentSession: undefined,
+export const useSessionStore = create<SessionStore>(set => ({
+  session: null,
+  user: null,
   isLoading: true,
-  loadCurrentSession: async () => {
-    const session = sessionLStorage.get<Session>();
-    set({ currentSession: session, isLoading: false });
+
+  setSession: session =>
+    set({
+      session,
+      user: session?.user ?? null,
+      isLoading: false,
+    }),
+
+  refresh: async () => {
+    const supabase = createClientComponentClient();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    set({
+      session: session ?? null,
+      user: session?.user ?? null,
+      isLoading: false,
+    });
   },
-  setCurrentSession: session => {
-    sessionLStorage.set(session);
-    set(() => ({ currentSession: session }));
-  },
-  removeSession: () => {
-    sessionLStorage.remove();
-    set(() => ({ currentSession: undefined }));
-  },
+  clear: () => set({ session: null, user: null, isLoading: false }),
 }));

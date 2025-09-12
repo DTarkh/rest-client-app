@@ -3,16 +3,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useI18n, type ErrorType } from '../model/i18n';
 import { loginSchema, type LoginFormData } from '../model/validation';
 import { useForm } from 'react-hook-form';
-import { logger } from '@/src/shared/lib/logger';
+
 import { FormHeader } from './form-elements/FormHeader';
 import { FormInput } from './form-elements/FormInput';
 import { FormButton } from './form-elements/FormButton';
-import { useSession } from '@/src/entities/session';
-import { redirect } from 'next/navigation';
-import { routes } from '@/src/shared/constants';
+
+import { useSignIn } from '../model/use-sign-in';
 export const LoginForm = () => {
   const { t } = useI18n();
-  const { setCurrentSession } = useSession();
+  const { mutate: signIn, isPending } = useSignIn();
 
   const {
     register,
@@ -23,11 +22,7 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (data: LoginFormData) => {
-    logger(data);
-
-    // TODO replace with real auth logic and add actual data to session
-    setCurrentSession({ email: 'email', token: 'token12345' });
-    redirect(routes.client);
+    signIn(data);
   };
 
   return (
@@ -46,7 +41,7 @@ export const LoginForm = () => {
           registration={register('password')}
           error={t(errors.password?.message as ErrorType) as string}
         />
-        <FormButton type='submit' className='w-1/2 self-center'>
+        <FormButton type='submit' className='w-1/2 self-center' disabled={isPending}>
           {t('loginButton')}
         </FormButton>
       </form>

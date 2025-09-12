@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { routes } from '@/src/shared/constants';
 import { UpdateLang } from '@/src/features/i18n';
 import { useI18n } from '../model/i18n';
+import { SignOutButton } from '@/src/features/sign-out';
+import { useSessionStore } from '@/src/entities/session';
 
 export function AppHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -52,18 +54,7 @@ export function AppHeader() {
             >
               {t('button')}
             </Link>
-            <Link
-              href={routes.login}
-              className='text-sm font-medium  hover:text-gray-600 transition-colors text-gray-800'
-            >
-              {t('signIn')}
-            </Link>
-            <Link
-              href={routes.register}
-              className='text-sm font-medium  hover:text-gray-600 transition-colors  text-gray-800'
-            >
-              {t('register')}
-            </Link>
+            <AuthButtons />
             <UpdateLang />
           </nav>
 
@@ -105,3 +96,45 @@ export function AppHeader() {
     </header>
   );
 }
+
+export const AuthButtons = () => {
+  const { t } = useI18n();
+  const { isLoading, user } = useSessionStore();
+
+  if (isLoading) {
+    return (
+      <div className='flex gap-2'>
+        <div className='h-9 w-20 bg-gray-200 animate-pulse rounded-md' />
+        <div className='h-9 w-20 bg-gray-200 animate-pulse rounded-md' />
+      </div>
+    );
+  }
+
+  if (user) {
+    return (
+      <div className='flex items-center gap-3'>
+        <span className='text-sm text-gray-600'>
+          {t('welcome')}, {user?.email}
+        </span>
+        <SignOutButton />
+      </div>
+    );
+  }
+
+  return (
+    <div className='flex gap-8'>
+      <Link
+        href={routes.login}
+        className='text-sm font-medium  hover:text-gray-600 transition-colors text-gray-800'
+      >
+        {t('signIn')}
+      </Link>
+      <Link
+        href={routes.register}
+        className='text-sm font-medium  hover:text-gray-600 transition-colors  text-gray-800'
+      >
+        {t('register')}
+      </Link>
+    </div>
+  );
+};

@@ -4,6 +4,8 @@ import './globals.css';
 import type React from 'react';
 import { AppProvider } from './_/providers/AppProvider';
 import { AuthProvider } from './_/providers/AuthProvider';
+import TanstackQueryProvider from './_/providers/TanstackQueryProvider';
+import { Toaster } from 'sonner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -29,7 +31,12 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`min-h-screen ${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AppProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <TanstackQueryProvider>
+              {children}
+              <Toaster richColors position='top-right' />
+            </TanstackQueryProvider>
+          </AuthProvider>
         </AppProvider>
       </body>
     </html>

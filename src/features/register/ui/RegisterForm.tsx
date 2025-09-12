@@ -7,13 +7,11 @@ import { FormHeader } from './form-elements/FormHeader';
 import { FormInput } from './form-elements/FormInput';
 import { FormButton } from './form-elements/FormButton';
 import { useI18n, type ErrorType } from '../model/i18n';
-import { useSession } from '@/src/entities/session';
-import { redirect } from 'next/navigation';
-import { routes } from '@/src/shared/constants';
+import { useSignUp } from '../model/use-sign-in';
 
 export const RegisterForm = () => {
   const { t } = useI18n();
-  const { setCurrentSession } = useSession();
+  const { mutate: signUp, isPending } = useSignUp();
 
   const {
     register,
@@ -25,10 +23,8 @@ export const RegisterForm = () => {
 
   const onSubmit = (data: RegisterFormData) => {
     logger(data);
-    // TODO add register logic here
-    // TODO add actual data to session
-    setCurrentSession({ email: data.email, token: 'token12345' });
-    redirect(routes.client);
+
+    signUp(data);
   };
 
   return (
@@ -57,7 +53,7 @@ export const RegisterForm = () => {
           error={t(errors.confirmPassword?.message as ErrorType) as string}
         />
 
-        <FormButton type='submit' className='w-1/2 self-center'>
+        <FormButton type='submit' className='w-1/2 self-center' disabled={isPending}>
           {t('registerButton')}
         </FormButton>
       </form>
