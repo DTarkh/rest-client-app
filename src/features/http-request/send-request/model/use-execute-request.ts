@@ -20,11 +20,11 @@ async function executeRequest(data: ExecuteRequestData) {
 
   const result = await response.json();
 
-  if (!response.ok) {
-    throw new Error(result.error || 'Ошибка выполнения запроса');
+  if (result.status >= 400) {
+    throw new Error(result?.statusText || 'Something went wrong');
   }
 
-  return response.json();
+  return result;
 }
 
 export const useExecuteRequest = () => {
@@ -40,14 +40,14 @@ export const useExecuteRequest = () => {
       setResponse(data);
 
       if (data.status >= 400) {
-        toast.info(`Получен ответ со статусом ${data.status}`);
+        toast.info(`Recieved with status ${data.status}`);
       } else {
-        toast.success(`Запрос выполнен успешно (${data.status})`);
+        toast.success(`Recieved with status (${data.status})`);
       }
     },
     onError: (error: Error) => {
       setError(error.message);
-      toast.error(`Ошибка: ${error.message}`);
+      toast.error(`Error: ${error.message}`);
     },
     onSettled: () => {
       setLoading(false);

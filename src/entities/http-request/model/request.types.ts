@@ -22,7 +22,6 @@ export type RequestState = {
   isValid: boolean;
   validationErrors: Record<string, string>;
 
-  // Actions
   setMethod: (method: HttpMethod) => void;
   setUrl: (url: string) => void;
   setHeaders: (headers: HeaderEntry[]) => void;

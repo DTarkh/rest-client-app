@@ -4,25 +4,25 @@ export function validateRequest(request: HttpRequest) {
   const errors: Record<string, string> = {};
 
   if (!request.url.trim()) {
-    errors.url = 'URL обязателен';
+    errors.url = 'urlRequired';
   } else {
     try {
       const url = new URL(request.url);
       if (!['http:', 'https:'].includes(url.protocol)) {
-        errors.url = 'URL должен начинаться с http:// или https://';
+        errors.url = 'urlProtocol';
       }
     } catch {
-      errors.url = 'Некорректный формат URL';
+      errors.url = 'urlInvalid';
     }
   }
 
   const enabledHeaders = request.headers.filter(h => h.enabled);
   for (const header of enabledHeaders) {
     if (header.key.trim() && !header.value.trim()) {
-      errors[`header-${header.id}`] = 'Значение заголовка не может быть пустым';
+      errors[`header-${header.id}`] = 'headerValueRequired';
     }
     if (!header.key.trim() && header.value.trim()) {
-      errors[`header-${header.id}`] = 'Название заголовка не может быть пустым';
+      errors[`header-${header.id}`] = 'headerKeyRequired';
     }
   }
 
@@ -30,7 +30,7 @@ export function validateRequest(request: HttpRequest) {
     try {
       JSON.parse(request.body);
     } catch {
-      errors.body = 'Некорректный JSON формат';
+      errors.body = 'invalidJson';
     }
   }
 
