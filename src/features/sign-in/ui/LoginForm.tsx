@@ -11,7 +11,7 @@ import { FormButton } from './form-elements/FormButton';
 import { useSignIn } from '../model/use-sign-in';
 export const LoginForm = () => {
   const { t } = useI18n();
-  const { mutate: signIn, isPending } = useSignIn();
+  const { mutateAsync: signIn, isPending } = useSignIn();
 
   const {
     register,
@@ -21,8 +21,8 @@ export const LoginForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    signIn(data);
+  const onSubmit = async (data: LoginFormData) => {
+    await signIn(data);
   };
 
   return (

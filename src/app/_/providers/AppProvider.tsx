@@ -13,5 +13,11 @@ export function AppProvider({ children }: { children?: React.ReactNode }) {
 
   const isLoading = isLoadingLng;
 
-  return isLoading ? <div>loading</div> : <I18nProvider lang={lang}>{children}</I18nProvider>;
+  return isLoading ? (
+    <div className='min-h-screen flex items-center justify-center'>
+      <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600'></div>
+    </div>
+  ) : (
+    <I18nProvider lang={lang}>{children}</I18nProvider>
+  );
 }
