@@ -3,9 +3,8 @@ import { HttpRequest } from '../model/request.types';
 export function encodeRequestToUrl(request: HttpRequest): string {
   const { method, url, headers, body } = request;
 
-  const encodedUrl = btoa(encodeURIComponent(url));
-
-  const encodedBody = body.trim() ? btoa(encodeURIComponent(body)) : '';
+  const encodedUrl = btoa(url);
+  const encodedBody = body.trim() ? btoa(encodeURIComponent(body)).replace(/=+$/, '') : '';
 
   const enabledHeaders = headers.filter(h => h.enabled && h.key.trim());
   const headerParams = new URLSearchParams();

@@ -9,9 +9,9 @@ export function decodeRequestFromUrl(params: string[], searchParams: URLSearchPa
   let url = '';
   if (encodedUrl) {
     try {
-      url = decodeURIComponent(atob(encodedUrl));
+      url = atob(encodedUrl);
     } catch {
-      logger('Не удалось декодировать URL из параметров');
+      logger('Failed to decode URL from parameters');
     }
   }
 
@@ -20,7 +20,7 @@ export function decodeRequestFromUrl(params: string[], searchParams: URLSearchPa
     try {
       body = decodeURIComponent(atob(encodedBody));
     } catch {
-      logger('Не удалось декодировать body из параметров');
+      logger('Failed to decode body from parameters');
     }
   }
 
