@@ -1,6 +1,7 @@
 import { RequestBuilder } from '@/src/widgets/request-builder';
 import { ResponseViewer } from '@/src/widgets/response-viewer';
 import { useI18n } from '../model/i18n';
+import { CodeGenerator } from '@/src/widgets/code-generator';
 
 export function ClientPage() {
   const { t } = useI18n();
@@ -13,6 +14,9 @@ export function ClientPage() {
         <div className='flex flex-col gap-8 self-center sm:w-full'>
           <div>
             <RequestBuilder />
+          </div>
+          <div>
+            <CodeGenerator />
           </div>
           <div>
             <ResponseViewer />

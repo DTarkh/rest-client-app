@@ -6,6 +6,7 @@ import { AppProvider } from './_/providers/AppProvider';
 import { AuthProvider } from './_/providers/AuthProvider';
 import TanstackQueryProvider from './_/providers/TanstackQueryProvider';
 import { Toaster } from 'sonner';
+import 'prismjs/themes/prism-tomorrow.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

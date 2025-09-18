@@ -147,3 +147,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Кастомные стили для code viewer */
+.code-viewer {
+  @apply rounded-lg overflow-hidden;
+}
+
+.code-viewer pre {
+  @apply m-0 p-4 bg-gray-900 text-gray-100;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Прокрутка для длинного кода */
+.code-viewer pre {
+  max-height: 400px;
+  overflow: auto;
+}
