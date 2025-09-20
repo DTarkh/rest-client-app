@@ -5,7 +5,7 @@ export type Variable = {
   name: string;
   value: string;
   description?: string;
-  isSecret?: boolean; // Для скрытия значений токенов
+  isSecret?: boolean;
   createdAt: number;
   updatedAt: number;
 };
@@ -29,7 +29,6 @@ export function substituteVariables(text: string, variables: Variable[]): Substi
     if (variableMap.has(variableName)) {
       const value = variableMap.get(variableName)!;
 
-      // Учитываем количество замен
       const existing = substitutions.find(s => s.variable === variableName);
       if (existing) {
         existing.count++;
@@ -44,7 +43,7 @@ export function substituteVariables(text: string, variables: Variable[]): Substi
       return value;
     } else {
       missingVariables.add(variableName);
-      return match; // Оставляем неизмененным если переменная не найдена
+      return match;
     }
   });
 

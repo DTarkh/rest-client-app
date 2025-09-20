@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: [
-          // CORS headers for REST API client
           {
             key: 'Access-Control-Allow-Origin',
             value: '*',
@@ -19,7 +18,6 @@ const nextConfig: NextConfig = {
             key: 'Access-Control-Allow-Headers',
             value: 'Content-Type, Authorization, X-Requested-With',
           },
-          // Security headers
           {
             key: 'X-Frame-Options',
             value: 'SAMEORIGIN',
@@ -44,28 +42,22 @@ const nextConfig: NextConfig = {
     domains: ['supabase.co'],
   },
 
-  // Environment variables for Supabase and API
   env: {
     SUPABASE_KEY: process.env.SUPABASE_KEY,
   },
 
-  // Static export settings if needed
   output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
 
-  // Compression and performance
   compress: true,
 
-  // TypeScript settings
   typescript: {
     ignoreBuildErrors: false,
   },
 
-  // ESLint settings
   eslint: {
     ignoreDuringBuilds: false,
   },
 
-  // Redirects for API routes
   async redirects() {
     return [
       {
@@ -76,7 +68,6 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Rewrites for SPA behavior
   async rewrites() {
     return [
       {

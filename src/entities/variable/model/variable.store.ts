@@ -4,6 +4,7 @@ import { VariableStorage } from '../lib/storage';
 import { validateVariable } from '../lib/validate-variable';
 import { create } from 'zustand';
 import { logger } from '@/src/shared/lib/logger';
+import React from 'react';
 
 export const useVariableStore = create<VariableState>()(
   devtools(
@@ -16,7 +17,6 @@ export const useVariableStore = create<VariableState>()(
       addVariable: async newVariable => {
         const { variables } = get();
 
-        // Валидируем переменную
         const validation = validateVariable(newVariable, variables);
         if (!validation.isValid) {
           throw new Error(Object.values(validation.errors)[0]);
@@ -31,7 +31,6 @@ export const useVariableStore = create<VariableState>()(
 
         const updatedVariables = [...variables, variable];
 
-        // Сохраняем в LocalStorage
         await VariableStorage.saveVariables(updatedVariables);
 
         set({ variables: updatedVariables }, false, 'addVariable');
@@ -52,7 +51,6 @@ export const useVariableStore = create<VariableState>()(
           updatedAt: Date.now(),
         };
 
-        // Валидируем обновленную переменную
         const validation = validateVariable(updatedVariable, variables, id);
         if (!validation.isValid) {
           throw new Error(Object.values(validation.errors)[0]);
@@ -61,7 +59,6 @@ export const useVariableStore = create<VariableState>()(
         const updatedVariables = [...variables];
         updatedVariables[variableIndex] = updatedVariable;
 
-        // Сохраняем в LocalStorage
         await VariableStorage.saveVariables(updatedVariables);
 
         set({ variables: updatedVariables }, false, 'updateVariable');
@@ -71,7 +68,6 @@ export const useVariableStore = create<VariableState>()(
         const { variables } = get();
         const updatedVariables = variables.filter(v => v.id !== id);
 
-        // Сохраняем в LocalStorage
         await VariableStorage.saveVariables(updatedVariables);
 
         set(
@@ -138,7 +134,6 @@ export const useVariableStore = create<VariableState>()(
         const importedVariables = await VariableStorage.importVariables(data);
         const { variables } = get();
 
-        // Объединяем с существующими переменными
         const allVariables = [...variables, ...importedVariables];
 
         await VariableStorage.saveVariables(allVariables);
@@ -151,11 +146,10 @@ export const useVariableStore = create<VariableState>()(
   ),
 );
 
-// Хук для инициализации переменных из storage
 export const useInitializeVariables = () => {
   const { setVariables, setLoading } = useVariableStore();
 
-  const initialize = async () => {
+  const initialize = React.useCallback(async () => {
     setLoading(true);
     try {
       const variables = await VariableStorage.loadVariables();
@@ -165,7 +159,7 @@ export const useInitializeVariables = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [setVariables, setLoading]);
 
   return initialize;
 };

@@ -30,14 +30,11 @@ export class NodeJsGenerator {
     const headers = toEnabledHeadersArray(request.headers || []);
     const body = (request.body ?? '').trim();
 
-    // Convert headers array to a plain object for Node's options
     const hdrObject: Record<string, string> = {};
     headers.forEach(h => {
       hdrObject[h.key] = h.value ?? '';
     });
 
-    // We'll embed the body as a JS string literal (JSON-escaped),
-    // so no nested template strings are needed.
     const dataDecl =
       methodAllowsBody(method) && body ? `const data = ${JSON.stringify(body)};\n\n` : '';
 

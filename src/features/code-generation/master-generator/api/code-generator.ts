@@ -45,7 +45,6 @@ export class CodeGenerator {
   }
 
   private static generateXHR(request: HttpRequest): string {
-    // Реализация XHR генератора
     const { method, url, headers, body } = request;
 
     const enabledHeaders = headers.filter(h => h.enabled && h.key.trim());
@@ -53,8 +52,6 @@ export class CodeGenerator {
     let code = `// XMLHttpRequest
 const xhr = new XMLHttpRequest();
 xhr.open('${method.toUpperCase()}', '${url}');
-
-// Устанавливаем заголовки
 `;
 
     enabledHeaders.forEach(header => {
@@ -62,7 +59,6 @@ xhr.open('${method.toUpperCase()}', '${url}');
     });
 
     code += `
-// Обработчик ответа
 xhr.onreadystatechange = function() {
   if (xhr.readyState === XMLHttpRequest.DONE) {
     if (xhr.status === 200) {
@@ -73,11 +69,8 @@ xhr.onreadystatechange = function() {
   }
 };
 
-// Отправляем запрос
 xhr.send(${body.trim() ? `'${body.replace(/'/g, "\\'")}')` : 'null'});`;
 
     return code;
   }
-
-  // Другие приватные методы для генерации...
 }

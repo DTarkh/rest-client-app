@@ -2,8 +2,6 @@ import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
 import type { CodeSnippetState, SupportedLanguage, CodeSnippet } from './snippet.types';
 
-// If your SupportedLanguage is:
-// 'curl' | 'javascript-fetch' | 'javascript-xhr' | 'nodejs' | 'python' | 'java' | 'csharp' | 'go'
 const emptySnippets: Record<SupportedLanguage, CodeSnippet | null> = {
   curl: null,
   'javascript-fetch': null,
@@ -19,7 +17,7 @@ export const useCodeSnippetStore = create<CodeSnippetState>()(
   devtools(
     persist(
       set => ({
-        snippets: emptySnippets, // <-- initialize with all keys
+        snippets: emptySnippets,
         currentLanguage: 'curl',
         isGenerating: false,
         lastError: null,
@@ -63,10 +61,9 @@ export const useCodeSnippetStore = create<CodeSnippetState>()(
       }),
       {
         name: 'code-snippet-storage',
-        storage: createJSONStorage(() => sessionStorage), // no cross-session persistence
+        storage: createJSONStorage(() => sessionStorage),
         partialize: state => ({
           currentLanguage: state.currentLanguage,
-          // if you ever add more persisted fields, list them here
         }),
       },
     ),
