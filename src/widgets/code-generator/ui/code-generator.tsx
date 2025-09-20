@@ -1,4 +1,3 @@
-// src/widgets/code-generator/ui/code-generator.tsx
 'use client';
 
 import { useEffect } from 'react';
@@ -16,8 +15,10 @@ import { LanguageSelector } from './language-selector';
 import { CodeViewer } from './code-viewer';
 import { CopyButton } from './copy-button';
 import { toast } from 'sonner';
+import { useI18n } from '../model/i18n';
 
 export const CodeGenerator = () => {
+  const { t } = useI18n();
   const { currentRequest, isValid } = useRequestStore();
   const { snippets, currentLanguage, isGenerating, setCurrentLanguage } = useCodeSnippetStore();
 
@@ -25,7 +26,6 @@ export const CodeGenerator = () => {
 
   const currentSnippet = snippets[currentLanguage];
 
-  // Автоматическая генерация при изменении запроса или языка
   useEffect(() => {
     if (isValid && currentRequest.url && currentRequest.method) {
       generateCode({
@@ -41,7 +41,7 @@ export const CodeGenerator = () => {
 
   const handleManualGenerate = () => {
     if (!isValid) {
-      toast.error('Заполните корректно URL и параметры запроса');
+      toast.error(t('invalidRequestError'));
       return;
     }
 
@@ -54,7 +54,7 @@ export const CodeGenerator = () => {
   const downloadCode = () => {
     if (!currentSnippet?.code) return;
 
-    const { extension, label } = getLanguageConfig(currentLanguage);
+    const { extension } = getLanguageConfig(currentLanguage);
     const filename = `http-request.${extension}`;
 
     const blob = new Blob([currentSnippet.code], {
@@ -69,7 +69,7 @@ export const CodeGenerator = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 
-    toast.success(`Код ${label} сохранен как ${filename}`);
+    toast.success(t('downloadSuccess'));
   };
 
   return (
@@ -77,7 +77,7 @@ export const CodeGenerator = () => {
       <Card className='p-6'>
         <div className='space-y-4'>
           <div className='flex items-center justify-between'>
-            <h2 className='text-xl font-semibold'>Генерация кода</h2>
+            <h2 className='text-xl font-semibold'>{t('title')}</h2>
             {currentSnippet?.code && (
               <div className='flex gap-2'>
                 <CopyButton
@@ -86,7 +86,7 @@ export const CodeGenerator = () => {
                 />
                 <Button variant='outline' size='sm' onClick={downloadCode} className='gap-2'>
                   <Download size={16} />
-                  Скачать
+                  {t('downloadButton')}
                 </Button>
               </div>
             )}
@@ -106,7 +106,13 @@ export const CodeGenerator = () => {
               className='gap-2'
             >
               <Wand2 size={16} />
-              {isGenerating ? 'Генерируем...' : 'Обновить код'}
+              {isGenerating
+                ? currentSnippet
+                  ? t('updatingButton')
+                  : t('generatingButton')
+                : currentSnippet
+                  ? t('updateButton')
+                  : t('generateButton')}
             </Button>
           </div>
         </div>

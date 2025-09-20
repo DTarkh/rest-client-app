@@ -66,11 +66,9 @@ function pyDict(obj: Record<string, string>): string {
 
 function guessPyBody(raw: string): string {
   try {
-    // if it's valid JSON, return a json=... snippet
     JSON.parse(raw);
     return `json=${raw}`;
   } catch {
-    // otherwise return as a Python triple-quoted string, escaping """ inside
     const safe = raw.replace(/"""/g, '\\"\\"\\"');
     return `"""${safe}"""`;
   }

@@ -27,8 +27,6 @@ export function headerValue(headers: HeaderKV[], name: string): string | undefin
 
 /** Shell-safe single-quoted string: ' -> '\''  (POSIX-safe) */
 export function shellQuoteSingle(str: string): string {
-  // Wrap in single quotes and escape any inner single quotes by closing/opening
-  // Example: abc'def  ->  'abc'\''def'
   return `'${String(str).replace(/'/g, `'\\''`)}'`;
 }
 
@@ -39,12 +37,11 @@ export function normalizeBodyForCurl(raw: string, contentType?: string): string 
 
   const ct = (contentType || '').toLowerCase();
   if (ct.includes('application/json')) {
-    // If JSON, try to pretty-compact it once so it's stable in the output
     try {
       const parsed = JSON.parse(trimmed);
-      return JSON.stringify(parsed); // compact JSON for shell
+      return JSON.stringify(parsed);
     } catch {
-      // fall through and return raw if it's not valid JSON
+      return trimmed;
     }
   }
   return trimmed;
@@ -70,22 +67,18 @@ export class CurlGenerator {
     const contentType = headerValue(headers, 'Content-Type');
     const rawBody = (request.body ?? '').trim();
 
-    // Base line (method + URL)
     const lines: string[] = [];
     lines.push(`curl -X ${method} ${shellQuoteSingle(url)}`);
 
-    // Headers
     for (const h of headers) {
       lines.push(`  -H ${shellQuoteSingle(`${h.key}: ${h.value ?? ''}`)}`);
     }
 
-    // Body (only when allowed and present)
     if (methodAllowsBody(method) && rawBody) {
       const bodyText = normalizeBodyForCurl(rawBody, contentType);
       lines.push(`  --data ${shellQuoteSingle(bodyText)}`);
     }
 
-    // Join with shell continuation for readability
     return lines.join(' \\\n');
   }
 }

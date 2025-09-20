@@ -13,7 +13,7 @@ export type CodeSnippet = {
   language: SupportedLanguage;
   code: string;
   label: string;
-  prismLanguage: string; // Язык для Prism.js подсветки
+  prismLanguage: string;
   generatedAt: number;
   isValid: boolean;
   error?: string;
@@ -34,7 +34,6 @@ export type CodeSnippetState = {
   isGenerating: boolean;
   lastError: string | null;
 
-  // Actions
   setCurrentLanguage: (language: SupportedLanguage) => void;
   setSnippet: (language: SupportedLanguage, snippet: CodeSnippet) => void;
   clearSnippets: () => void;

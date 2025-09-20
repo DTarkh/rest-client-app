@@ -4,7 +4,6 @@ import { logger } from '@/src/shared/lib/logger';
 
 const STORAGE_KEY = 'swagger-lite-variables';
 
-// Настройка localforage для переменных
 const variablesStore = localforage.createInstance({
   name: 'SwaggerLite',
   storeName: 'variables',
@@ -49,7 +48,6 @@ export class VariableStorage {
           exportedAt: new Date().toISOString(),
           variables: variables.map(v => ({
             ...v,
-            // Не экспортируем секретные значения
             value: v.isSecret ? '***SECRET***' : v.value,
           })),
         },
@@ -70,13 +68,12 @@ export class VariableStorage {
         throw new Error('Неверный формат файла');
       }
 
-      // Валидируем и очищаем импортированные переменные
       const validVariables: Variable[] = [];
 
       for (const variable of data.variables) {
         if (variable.name && variable.value !== undefined) {
           validVariables.push({
-            id: crypto.randomUUID(), // Генерируем новые ID
+            id: crypto.randomUUID(),
             name: variable.name,
             value: variable.value === '***SECRET***' ? '' : variable.value,
             description: variable.description || '',

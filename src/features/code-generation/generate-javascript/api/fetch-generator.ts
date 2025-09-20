@@ -14,7 +14,6 @@ export class FetchGenerator {
         ? headers.filter(h => h.enabled !== false && h.key?.trim())
         : [];
 
-      // Turn into JS object literal
       const headerLines = enabledHeaders
         .map(h => `    "${h.key}": "${(h.value ?? '').replace(/"/g, '\\"')}"`)
         .join(',\n');

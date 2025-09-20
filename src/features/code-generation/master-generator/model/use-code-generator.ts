@@ -6,9 +6,8 @@ import {
   useCodeSnippetStore,
   getLanguageConfig,
 } from '@/src/entities/code-snippet';
-import { useVariableStore } from '@/src/entities/variable';
+import { substituteVariables, useVariableStore } from '@/src/entities/variable';
 import { CodeGenerator } from '../api/code-generator';
-import { substituteVariables } from '@/src/entities/variable-substitution';
 
 type GenerateCodeParams = {
   request: HttpRequest;
@@ -18,11 +17,8 @@ type GenerateCodeParams = {
 async function generateCode({ request, language }: GenerateCodeParams) {
   const config = getLanguageConfig(language);
 
-  //   Важно: заменяем переменные перед генерацией кода
   const variables = useVariableStore.getState().variables;
-  // Предполагаем, что нужно заменить переменные в теле запроса (body) или url, например:
   const substituted = substituteVariables(request.body ?? '', variables);
-  // Создаем новый объект запроса с подставленными переменными
   const processedRequest = {
     ...request,
     body: substituted.text,

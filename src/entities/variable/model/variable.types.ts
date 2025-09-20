@@ -3,7 +3,7 @@ export type Variable = {
   name: string;
   value: string;
   description?: string;
-  isSecret?: boolean; // Для скрытия значений токенов
+  isSecret?: boolean;
   createdAt: number;
   updatedAt: number;
 };
@@ -14,7 +14,6 @@ export type VariableState = {
   searchQuery: string;
   selectedVariableId: string | null;
 
-  // Actions
   addVariable: (variable: Omit<Variable, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
   updateVariable: (id: string, updates: Partial<Variable>) => Promise<void>;
   deleteVariable: (id: string) => Promise<void>;
@@ -23,7 +22,6 @@ export type VariableState = {
   setSearchQuery: (query: string) => void;
   setSelectedVariable: (id: string | null) => void;
 
-  // Computed
   getVariableById: (id: string) => Variable | undefined;
   getVariableByName: (name: string) => Variable | undefined;
   getFilteredVariables: () => Variable[];

@@ -7,18 +7,15 @@ export function validateVariable(
 ): VariableValidationResult {
   const errors: VariableValidationResult['errors'] = {};
 
-  // Валидация имени
   if (!variable.name?.trim()) {
     errors.name = 'Имя переменной обязательно';
   } else {
-    // Проверка формата имени (только буквы, цифры, подчеркивания)
     const nameRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
     if (!nameRegex.test(variable.name)) {
       errors.name = 'Имя может содержать только буквы, цифры и подчеркивания';
     } else if (variable.name.length > 50) {
       errors.name = 'Имя не должно превышать 50 символов';
     } else {
-      // Проверка уникальности имени
       const duplicate = existingVariables.find(v => v.name === variable.name && v.id !== excludeId);
       if (duplicate) {
         errors.name = 'Переменная с таким именем уже существует';
@@ -26,14 +23,12 @@ export function validateVariable(
     }
   }
 
-  // Валидация значения
   if (variable.value === undefined || variable.value === null) {
     errors.value = 'Значение переменной обязательно';
   } else if (variable.value.length > 1000) {
     errors.value = 'Значение не должно превышать 1000 символов';
   }
 
-  // Валидация описания
   if (variable.description && variable.description.length > 200) {
     errors.description = 'Описание не должно превышать 200 символов';
   }

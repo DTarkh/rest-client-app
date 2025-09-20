@@ -1,17 +1,16 @@
-// src/app/(protected)/client/[[...params]]/page.tsx
 'use client';
 
 import { use, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRequestStore } from '@/src/entities/http-request';
 import { decodeRequestFromUrl } from '@/src/entities/http-request/';
-import { ClientPage } from '../../../../pages-slice/client-page';
-import { logger } from '../../../../shared/lib/logger';
+import { ClientPage } from '@/src/pages-slice/client-page';
+import { logger } from '@/src/shared/lib/logger';
 
 type Props = { params: Promise<{ params: string[] }> };
 
 export default function DynamicRestClientPage({ params }: Props) {
-  const searchParams = useSearchParams(); // ReadonlyURLSearchParams
+  const searchParams = useSearchParams();
   const sp = useMemo(() => new URLSearchParams(searchParams?.toString() ?? ''), [searchParams]);
 
   const setMethod = useRequestStore(s => s.setMethod);

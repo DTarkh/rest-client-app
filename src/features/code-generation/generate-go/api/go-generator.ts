@@ -67,6 +67,5 @@ func main() {
 }
 
 function goString(s: string) {
-  // naive string literal; for big JSONs consider backticks
   return `"${s.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`;
 }

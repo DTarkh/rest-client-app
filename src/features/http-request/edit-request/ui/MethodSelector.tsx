@@ -1,13 +1,13 @@
 'use client';
 
-import type { HttpMethod } from '../../../../entities/http-request';
+import type { HttpMethod } from '@/src/entities/http-request';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../../../../shared/ui/select';
+} from '@/src/shared/ui/select';
 import { HTTP_METHODS } from '../model/constants';
 import { MethodBadge } from './MethodBadge';
 
