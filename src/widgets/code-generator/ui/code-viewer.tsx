@@ -6,6 +6,7 @@ import { Badge } from '@/src/shared/ui/badge';
 import { Prism } from '@/src/shared/lib/prism-config';
 import { CodeSnippet } from '@/src/entities/code-snippet';
 import { logger } from '@/src/shared/lib/logger';
+import { useI18n } from '../model/i18n';
 
 type CodeViewerProps = {
   snippet: CodeSnippet | null;
@@ -13,6 +14,7 @@ type CodeViewerProps = {
 };
 
 export const CodeViewer = ({ snippet, isLoading }: CodeViewerProps) => {
+  const { t } = useI18n();
   const codeRef = useRef<HTMLElement>(null);
 
   const highlightedCode = useMemo(() => {
@@ -30,7 +32,6 @@ export const CodeViewer = ({ snippet, isLoading }: CodeViewerProps) => {
     }
   }, [snippet?.code, snippet?.prismLanguage]);
 
-  // Применяем подсветку после рендеринга
   useEffect(() => {
     if (codeRef.current && highlightedCode) {
       codeRef.current.innerHTML = highlightedCode;
@@ -43,7 +44,7 @@ export const CodeViewer = ({ snippet, isLoading }: CodeViewerProps) => {
         <div className='flex items-center justify-center py-12'>
           <div className='text-center space-y-4'>
             <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto'></div>
-            <p className='text-gray-500'>Генерируем код...</p>
+            <p className='text-gray-500'>{t('loadingText')}</p>
           </div>
         </div>
       </Card>
@@ -55,8 +56,8 @@ export const CodeViewer = ({ snippet, isLoading }: CodeViewerProps) => {
       <Card className='p-6'>
         <div className='text-center py-12 text-gray-500'>
           <div className='text-4xl mb-4'>💻</div>
-          <h3 className='text-lg font-semibold'>Генерация кода</h3>
-          <p>Выберите язык и заполните параметры запроса для генерации кода</p>
+          <h3 className='text-lg font-semibold'>{t('generationTitle')}</h3>
+          <p>{t('generationDescription')}</p>
         </div>
       </Card>
     );
@@ -67,7 +68,7 @@ export const CodeViewer = ({ snippet, isLoading }: CodeViewerProps) => {
       <Card className='p-6 border-red-200'>
         <div className='text-center py-12 space-y-4'>
           <div className='text-red-500 text-xl'>⚠️</div>
-          <h3 className='text-lg font-semibold text-red-700'>Ошибка генерации</h3>
+          <h3 className='text-lg font-semibold text-red-700'>{t('errorTitle')}</h3>
           <p className='text-red-600'>{snippet.error}</p>
         </div>
       </Card>
@@ -79,7 +80,7 @@ export const CodeViewer = ({ snippet, isLoading }: CodeViewerProps) => {
       <div className='space-y-4'>
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-3'>
-            <h3 className='text-lg font-semibold'>Сгенерированный код</h3>
+            <h3 className='text-lg font-semibold'>{t('generatedCodeTitle')}</h3>
             <Badge variant='secondary' className='gap-1'>
               <span>{snippet.language}</span>
             </Badge>

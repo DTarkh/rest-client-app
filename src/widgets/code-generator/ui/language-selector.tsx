@@ -31,7 +31,7 @@ export const LanguageSelector = ({ selectedLanguage, onLanguageChange }: Languag
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className='w-[200px]' align='start'>
+      <DropdownMenuContent className='w-[330px]' align='start'>
         {Object.values(languageConfigs).map(config => (
           <DropdownMenuItem
             key={config.id}

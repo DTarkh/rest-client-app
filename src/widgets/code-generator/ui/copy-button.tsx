@@ -5,6 +5,7 @@ import { Copy, Check } from 'lucide-react';
 import { Button } from '@/src/shared/ui/button';
 import { toast } from 'sonner';
 import { logger } from '@/src/shared/lib/logger';
+import { useI18n } from '../model/i18n';
 
 type CopyButtonProps = {
   code: string;
@@ -13,24 +14,20 @@ type CopyButtonProps = {
   size?: 'default' | 'sm' | 'lg';
 };
 
-export const CopyButton = ({
-  code,
-  language,
-  variant = 'outline',
-  size = 'sm',
-}: CopyButtonProps) => {
+export const CopyButton = ({ code, variant = 'outline', size = 'sm' }: CopyButtonProps) => {
+  const { t } = useI18n();
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code);
       setIsCopied(true);
-      toast.success(`Код ${language} скопирован в буфер обмена`);
+      const message = t('copySuccess');
+      toast.success(message);
 
-      // Сбрасываем состояние через 2 секунды
       setTimeout(() => setIsCopied(false), 2000);
     } catch (error) {
-      toast.error('Не удалось скопировать код');
+      toast.error(t('copyError'));
       logger('Copy failed:', error);
     }
   };
@@ -46,12 +43,12 @@ export const CopyButton = ({
       {isCopied ? (
         <>
           <Check size={16} className='text-green-600' />
-          Скопировано
+          {t('copiedButton')}
         </>
       ) : (
         <>
           <Copy size={16} />
-          Копировать
+          {t('copyButton')}
         </>
       )}
     </Button>
