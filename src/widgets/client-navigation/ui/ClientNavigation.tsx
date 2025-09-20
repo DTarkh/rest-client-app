@@ -13,7 +13,7 @@ export function ClientNavigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   return (
     <>
-      <div className='w-full flex justify-between items-center h-20 bg-white px-4 fixed border-b '>
+      <div className='w-full flex justify-between items-center h-20  px-4 fixed  z-20 bg-white/90 backdrop-blur-md shadow-lg border-b border-border/50'>
         <Link href='/' className='flex items-center gap-3 h-[70px] w-[160px]'>
           <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-gray-900 text-white'>
             <span className='text-xs font-bold'>RC</span>
@@ -49,7 +49,7 @@ export function ClientNavigation() {
       </aside>
 
       {isMobileMenuOpen && (
-        <div className='md:hidden py-4 border-t border-border/20 px-5 fixed top-20 bg-white'>
+        <div className='md:hidden py-4 border-t border-border/20 px-5 fixed top-20 z-20  bg-white/90 backdrop-blur-md shadow-lg w-full'>
           <nav className='flex flex-col space-y-4'>
             <Link
               onClick={() => setIsMobileMenuOpen(false)}

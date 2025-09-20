@@ -27,7 +27,7 @@ export function AppHeader() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
+        isScrolled || isMobileMenuOpen
           ? 'bg-white/90 backdrop-blur-md shadow-lg border-b border-border/50'
           : 'bg-transparent'
       }`}
@@ -68,7 +68,7 @@ export function AppHeader() {
         </div>
 
         {isMobileMenuOpen && (
-          <div className='md:hidden py-4 border-t border-border/20'>
+          <div className='md:hidden py-4 border-t border-border/20 w-full'>
             <nav className='flex flex-col space-y-4'>
               <Link
                 href={routes.client}
