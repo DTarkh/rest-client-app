@@ -6,6 +6,7 @@ import { useExecuteRequest } from '@/src/features/http-request/';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/src/shared/ui/tabs';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '../model/i18n';
+import { useVariableSubstitution } from '@/src/entities/variable';
 
 export const RequestBuilder = () => {
   const router = useRouter();
@@ -24,6 +25,7 @@ export const RequestBuilder = () => {
     toggleHeader,
   } = useRequestStore();
 
+  const { processedRequest } = useVariableSubstitution(currentRequest);
   const { mutateAsync: executeRequest, isPending } = useExecuteRequest();
 
   const handleBodyChange = (body: string, type: 'json' | 'text' | 'none') => {
@@ -33,9 +35,7 @@ export const RequestBuilder = () => {
   const handleExecuteRequest = async () => {
     if (!isValid) return;
 
-    const { method, url, headers, body, bodyType } = currentRequest;
-
-    const enabledHeaders = headers
+    const enabledHeaders = processedRequest.headers
       .filter(h => h.enabled && h.key.trim())
       .reduce(
         (acc, h) => {
@@ -45,13 +45,19 @@ export const RequestBuilder = () => {
         {} as Record<string, string>,
       );
 
-    await executeRequest({
-      method,
-      url,
-      headers: enabledHeaders,
-      body: bodyType !== 'none' ? body : undefined,
-    });
+    const resolvedUrl = processedRequest.url?.trim();
+    if (!resolvedUrl) return;
 
+    const finalBody = processedRequest.bodyType === 'none' ? undefined : processedRequest.body;
+
+    const executionPayload = {
+      ...processedRequest,
+      url: resolvedUrl,
+      headers: enabledHeaders,
+      body: finalBody,
+    };
+
+    await executeRequest(executionPayload);
     const encodedUrl = encodeRequestToUrl(currentRequest);
     router.replace(encodedUrl);
   };

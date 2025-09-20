@@ -16,10 +16,12 @@ import { CodeViewer } from './code-viewer';
 import { CopyButton } from './copy-button';
 import { toast } from 'sonner';
 import { useI18n } from '../model/i18n';
+import { useVariableSubstitution } from '@/src/entities/variable';
 
 export const CodeGenerator = () => {
   const { t } = useI18n();
   const { currentRequest, isValid } = useRequestStore();
+  const { processedRequest } = useVariableSubstitution(currentRequest);
   const { snippets, currentLanguage, isGenerating, setCurrentLanguage } = useCodeSnippetStore();
 
   const { mutate: generateCode } = useCodeGenerator();
@@ -27,13 +29,13 @@ export const CodeGenerator = () => {
   const currentSnippet = snippets[currentLanguage];
 
   useEffect(() => {
-    if (isValid && currentRequest.url && currentRequest.method) {
+    if (isValid && processedRequest.url && processedRequest.method) {
       generateCode({
-        request: currentRequest,
+        request: processedRequest,
         language: currentLanguage,
       });
     }
-  }, [currentRequest, currentLanguage, isValid, generateCode]);
+  }, [processedRequest, currentLanguage, isValid, generateCode]);
 
   const handleLanguageChange = (language: SupportedLanguage) => {
     setCurrentLanguage(language);
@@ -46,7 +48,7 @@ export const CodeGenerator = () => {
     }
 
     generateCode({
-      request: currentRequest,
+      request: processedRequest,
       language: currentLanguage,
     });
   };
