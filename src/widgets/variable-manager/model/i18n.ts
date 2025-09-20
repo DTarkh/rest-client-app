@@ -1,0 +1,33 @@
+import { createI18nModule } from '@/src/shared/lib/i18n';
+
+export const useI18n = createI18nModule({
+  title: { en: 'Variables Manager', ru: 'Менеджер переменных' },
+  valueLabel: { en: 'Value:', ru: 'Значение:' },
+  secretBadge: { en: 'secret', ru: 'секрет' },
+  createdLabel: { en: 'Created:', ru: 'Создано:' },
+  updatedLabel: { en: 'Updated:', ru: 'Обновлено:' },
+  copyNameSuccess: { en: 'The variable name is copied', ru: 'Имя переменной скопировано' },
+  copyValueSuccess: { en: 'The variable value is copied', ru: 'Значение переменной скопировано' },
+  deleteConfirm: { en: 'Delete the variable', ru: 'Удалить переменную' },
+  searchPlaceholder: { en: 'Variables search...', ru: 'Поиск переменных...' },
+  addButton: { en: 'Add', ru: 'Добавить' },
+  exportButton: { en: 'Export', ru: 'Экспорт' },
+  importButton: { en: 'Import', ru: 'Импорт' },
+  emptyTitle: { en: 'Variables are not created', ru: 'Переменные не созданы' },
+  emptyDescription: {
+    en: 'Create variables to reuse values in queries',
+    ru: 'Создайте переменные для повторного использования значений в запросах',
+  },
+  createButton: { en: 'Create a variable', ru: 'Создать переменную' },
+  notFoundTitle: { en: 'No variables found', ru: 'Переменные не найдены' },
+  notFoundDescription: { en: 'Try to change the search query', ru: 'Попробуйте изменить запрос' },
+  howToUseTitle: { en: '💡 How to use variables:', ru: '💡 Как использовать переменные:' },
+  howToUseUrl: { en: 'In the URL:', ru: 'В URL:' },
+  howToUseHeaders: { en: 'In the headers:', ru: 'В заголовках:' },
+  howToUseBody: { en: 'In the body:', ru: 'В теле:' },
+  loadingText: { en: 'Variables loading...', ru: 'Загрузка переменных...' },
+  exportSuccess: { en: 'Variables exported successfully', ru: 'Переменные успешно экспортированы' },
+  importSuccess: { en: 'Variables imported successfully', ru: 'Переменные успешно импортированы' },
+  deleteSuccess: { en: 'Variable deleted successfully', ru: 'Переменная успешно удалена' },
+  unknownError: { en: 'Something went wrong', ru: 'Что-то пошло не так' },
+});
