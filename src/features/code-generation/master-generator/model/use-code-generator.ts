@@ -6,9 +6,8 @@ import {
   useCodeSnippetStore,
   getLanguageConfig,
 } from '@/src/entities/code-snippet';
-import { useVariableStore } from '@/src/entities/variable';
+import { substituteVariables, useVariableStore } from '@/src/entities/variable';
 import { CodeGenerator } from '../api/code-generator';
-import { substituteVariables } from '@/src/entities/variable-substitution';
 
 type GenerateCodeParams = {
   request: HttpRequest;
