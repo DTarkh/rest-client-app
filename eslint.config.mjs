@@ -32,7 +32,7 @@ const eslintConfig = [
       '*.config.{js,ts,mjs}',
       '.eslintcache',
       'src/app/_/**',
-  'src/lib/**',
+      'src/lib/**',
       '**/*.d.ts',
     ],
     languageOptions: {
@@ -64,9 +64,9 @@ const eslintConfig = [
       'boundaries/include': ['src/**/*'],
       'boundaries/ignore': ['src/middleware.{js,ts}'],
       'boundaries/elements': [
-  // Test files must be recognized as separate layer to allow broad imports
-  { type: 'test', pattern: '**/*.test.*' },
-  { type: 'test', pattern: '**/tests/**/*' },
+        // Test files must be recognized as separate layer to allow broad imports
+        { type: 'test', pattern: '**/*.test.*' },
+        { type: 'test', pattern: '**/tests/**/*' },
         { type: 'app', pattern: 'app' },
         { type: 'pages', pattern: 'pages-slice/*', capture: ['page'] },
         { type: 'widgets', pattern: 'widgets/*', capture: ['widget'] },
