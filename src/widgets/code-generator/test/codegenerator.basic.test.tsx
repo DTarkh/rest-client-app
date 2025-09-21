@@ -142,8 +142,7 @@ describe('CodeGenerator – basic behavior', () => {
     setValidRequest();
     const lang = useCodeSnippetStore.getState().currentLanguage;
 
-    useCodeSnippetStore.setState((s: any) => ({
-      // eslint-disable-line @typescript-eslint/no-explicit-any
+    useCodeSnippetStore.setState(s => ({
       ...s,
       snippets: {
         ...s.snippets,

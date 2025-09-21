@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SessionAPI } from '../api/session-api';
 import { useSessionStore } from '../model/session.store';
+import type { Session, User } from '@supabase/supabase-js';
 
 const getSessionMock = vi.fn();
 const onAuthStateChangeMock = vi.fn();
@@ -31,12 +32,9 @@ describe('SessionAPI', () => {
   });
 
   it('initializeSession clears store when no session', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    useSessionStore.setState({
-      session: { foo: 'bar' } as any,
-      user: { id: 'x' } as any,
-      isLoading: true,
-    });
+    const dummyUser = { id: 'x' } as unknown as User;
+    const dummySession = { user: dummyUser } as unknown as Session;
+    useSessionStore.setState({ session: dummySession, user: dummyUser, isLoading: true });
     getSessionMock.mockResolvedValueOnce({ data: { session: null } });
     await SessionAPI.initializeSession();
     const { user, session } = useSessionStore.getState();
@@ -45,12 +43,9 @@ describe('SessionAPI', () => {
   });
 
   it('initializeSession clears store on error', async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    useSessionStore.setState({
-      session: { foo: 'bar' } as any,
-      user: { id: 'x' } as any,
-      isLoading: true,
-    });
+    const dummyUser = { id: 'x' } as unknown as User;
+    const dummySession = { user: dummyUser } as unknown as Session;
+    useSessionStore.setState({ session: dummySession, user: dummyUser, isLoading: true });
     getSessionMock.mockRejectedValueOnce(new Error('boom'));
     await SessionAPI.initializeSession();
     const { user, session } = useSessionStore.getState();

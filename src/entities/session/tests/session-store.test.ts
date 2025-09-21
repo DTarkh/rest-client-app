@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useSessionStore } from '../model/session.store';
+import type { Session, User } from '@supabase/supabase-js';
 
 // Minimal supabase auth client mock
 vi.mock('@supabase/auth-helpers-nextjs', () => {
@@ -20,8 +21,9 @@ describe('session.store', () => {
   });
 
   it('setSession sets user + session and clears loading', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    useSessionStore.getState().setSession({ user: { id: '42' } } as any);
+    const dummyUser = { id: '42' } as unknown as User;
+    const dummySession = { user: dummyUser } as unknown as Session;
+    useSessionStore.getState().setSession(dummySession);
     const { session, user, isLoading } = useSessionStore.getState();
     expect(session?.user.id).toBe('42');
     expect(user?.id).toBe('42');
@@ -37,12 +39,9 @@ describe('session.store', () => {
   });
 
   it('clear resets state', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    useSessionStore.setState({
-      session: { a: 1 } as any,
-      user: { id: 'u' } as any,
-      isLoading: false,
-    });
+    const dummyUser = { id: 'u' } as unknown as User;
+    const dummySession = { user: dummyUser } as unknown as Session;
+    useSessionStore.setState({ session: dummySession, user: dummyUser, isLoading: false });
     useSessionStore.getState().clear();
     const { session, user, isLoading } = useSessionStore.getState();
     expect(session).toBeNull();
