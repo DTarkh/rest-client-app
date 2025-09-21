@@ -1,5 +1,5 @@
-import { ClientNavigation } from '@/src/widgets/client-navigation';
-import { Footer } from '@/src/widgets/footer';
+import { ClientNavigation } from '@/widgets/client-navigation';
+import { Footer } from '@/widgets/footer';
 import { ReactNode } from 'react';
 
 export default function layout({ children }: { children: ReactNode }) {

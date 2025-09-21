@@ -1,7 +1,7 @@
-import { RequestBuilder } from '@/src/widgets/request-builder';
-import { ResponseViewer } from '@/src/widgets/response-viewer';
+import { RequestBuilder } from '@/widgets/request-builder';
+import { ResponseViewer } from '@/widgets/response-viewer';
 import { useI18n } from '../model/i18n';
-import { CodeGenerator } from '@/src/widgets/code-generator';
+import { CodeGenerator } from '@/widgets/code-generator';
 
 export function ClientPage() {
   const { t } = useI18n();

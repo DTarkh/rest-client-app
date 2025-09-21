@@ -1,7 +1,7 @@
 'use client';
-import { routes } from '@/src/shared/constants';
+import { routes } from '@/shared/constants';
 import Link from 'next/link';
-import { createI18nModule } from '@/src/shared/lib/i18n';
+import { createI18nModule } from '@/shared/lib/i18n';
 import { heroTranslations } from '../i18n';
 
 const useI18n = createI18nModule(heroTranslations);

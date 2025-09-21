@@ -23,7 +23,6 @@ const { mockToast } = vi.hoisted(() => ({
 }));
 vi.mock('sonner', () => ({ toast: mockToast }));
 
-// --- stub API used by the hook
 const signInFn = vi.fn();
 vi.mock('../api/sign-in', () => ({
   signInAPI: {

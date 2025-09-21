@@ -1,12 +1,12 @@
 'use client';
-import { encodeRequestToUrl, useRequestStore } from '@/src/entities/http-request';
-import { Card } from '@/src/shared/ui/card';
-import { BodyEditor, HeadersEditor, MethodSelector, UrlInput } from '@/src/features/http-request';
-import { useExecuteRequest } from '@/src/features/http-request/';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/src/shared/ui/tabs';
+import { encodeRequestToUrl, useRequestStore } from '@/entities/http-request';
+import { Card } from '@/shared/ui/card';
+import { BodyEditor, HeadersEditor, MethodSelector, UrlInput } from '@/features/http-request';
+import { useExecuteRequest } from '@/features/http-request/';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '../model/i18n';
-import { useVariableSubstitution } from '@/src/entities/variable';
+import { useVariableSubstitution } from '@/entities/variable';
 
 export const RequestBuilder = () => {
   const router = useRouter();
@@ -66,13 +66,18 @@ export const RequestBuilder = () => {
   const hasBody = currentRequest.body.trim();
 
   return (
-    <div>
-      <Card className='p-6'>
+    <div data-testid='request-builder-root'>
+      <Card data-testid='request-card' className='p-6'>
         <div className='space-y-4'>
           <div className='flex gap-4'>
-            <MethodSelector value={currentRequest.method} onChange={setMethod} />
+            <MethodSelector
+              data-testid='method-selector'
+              value={currentRequest.method}
+              onChange={setMethod}
+            />
             <div className='flex-1'>
               <UrlInput
+                data-testid='url-input'
                 value={currentRequest.url}
                 onChange={setUrl}
                 onExecute={handleExecuteRequest}
@@ -82,9 +87,9 @@ export const RequestBuilder = () => {
             </div>
           </div>
 
-          <Tabs defaultValue='headers' className='w-full'>
+          <Tabs data-testid='request-tabs' defaultValue='headers' className='w-full'>
             <TabsList>
-              <TabsTrigger value='headers' className='gap-2'>
+              <TabsTrigger data-testid='tab-headers' value='headers' className='gap-2'>
                 {t('headersTitle')}
                 {enabledHeadersCount > 0 && (
                   <span className='bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full'>
@@ -92,7 +97,7 @@ export const RequestBuilder = () => {
                   </span>
                 )}
               </TabsTrigger>
-              <TabsTrigger value='body' className='gap-2'>
+              <TabsTrigger data-testid='tab-body' value='body' className='gap-2'>
                 {t('bodyTitle')}
                 {hasBody && (
                   <span className='bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full'>
@@ -102,7 +107,7 @@ export const RequestBuilder = () => {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value='headers' className='mt-6'>
+            <TabsContent data-testid='headers-panel' value='headers' className='mt-6'>
               <HeadersEditor
                 headers={currentRequest.headers}
                 onChange={setHeaders}
@@ -113,7 +118,7 @@ export const RequestBuilder = () => {
               />
             </TabsContent>
 
-            <TabsContent value='body' className='mt-6'>
+            <TabsContent data-testid='body-panel' value='body' className='mt-6'>
               <BodyEditor
                 body={currentRequest.body}
                 bodyType={currentRequest.bodyType}

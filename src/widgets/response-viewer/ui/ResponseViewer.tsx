@@ -3,11 +3,11 @@
 import { useMemo, useRef } from 'react';
 import { Copy, Download } from 'lucide-react';
 import { toast } from 'sonner';
-import { Badge } from '@/src/shared/ui/badge';
-import { useResponseStore } from '@/src/entities/http-response';
-import { Card } from '@/src/shared/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/src/shared/ui/tabs';
-import { Button } from '@/src/shared/ui/button';
+import { Badge } from '@/shared/ui/badge';
+import { useResponseStore } from '@/entities/http-response';
+import { Card } from '@/shared/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
+import { Button } from '@/shared/ui/button';
 import { useI18n } from '../../response-viewer/model/i18n';
 
 const StatusBadge = ({ status }: { status: number }) => {
@@ -19,7 +19,11 @@ const StatusBadge = ({ status }: { status: number }) => {
     return 'bg-gray-100 text-gray-800';
   };
 
-  return <Badge className={getStatusColor(status)}>{status}</Badge>;
+  return (
+    <Badge data-testid='response-status' className={getStatusColor(status)}>
+      {status}
+    </Badge>
+  );
 };
 
 export const ResponseViewer = () => {
@@ -64,7 +68,7 @@ export const ResponseViewer = () => {
 
   if (isLoading) {
     return (
-      <Card className='p-6'>
+      <Card data-testid='response-loading' className='p-6'>
         <div className='flex items-center justify-center py-12'>
           <div className='text-center space-y-4'>
             <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto'></div>
@@ -77,11 +81,17 @@ export const ResponseViewer = () => {
 
   if (error) {
     return (
-      <Card className='p-6 border-red-200'>
+      <Card data-testid='response-error' className='p-6 border-red-200'>
         <div className='text-center py-12 space-y-4'>
           <div className='text-red-500 text-xl'>⚠️</div>
           <h3 className='text-lg font-semibold text-red-700'>{t('requestError')}</h3>
           <p className='text-red-600'>{error}</p>
+          {/** Если ошибка содержит шаблон "HTTP error <status>" — отобразим статус бейдж для соответствия требованиям */}
+          {/HTTP error (\d+)/i.test(error) && (
+            <div className='flex justify-center'>
+              <StatusBadge status={Number(/HTTP error (\d+)/i.exec(error)?.[1])} />
+            </div>
+          )}
           <div className='text-sm text-gray-600 mt-4'>
             <p>{t('possibleReasons')}</p>
             <ul className='list-disc list-inside mt-2'>
@@ -97,7 +107,7 @@ export const ResponseViewer = () => {
 
   if (!response) {
     return (
-      <Card className='p-6'>
+      <Card data-testid='response-empty' className='p-6'>
         <div className='text-center py-12 text-gray-500'>
           <div className='text-4xl mb-4'>🚀</div>
           <h3 className='text-lg font-semibold'>{t('readyToRequest')}</h3>
@@ -110,7 +120,7 @@ export const ResponseViewer = () => {
   const headersCount = Object.keys(response.headers).length;
 
   return (
-    <Card className='p-6'>
+    <Card data-testid='response-card' className='p-6'>
       <div className='space-y-4'>
         <div className='flex items-center justify-between'>
           <div className='flex items-center gap-4'>
@@ -144,6 +154,7 @@ export const ResponseViewer = () => {
                 size='sm'
                 onClick={() => copyToClipboard(formattedResponse)}
                 className='gap-2'
+                data-testid='copy-response'
               >
                 <Copy size={16} />
                 {t('copyButton')}
@@ -154,6 +165,7 @@ export const ResponseViewer = () => {
                 onClick={downloadResponse}
                 className='gap-2'
                 asChild
+                data-testid='download-response'
               >
                 <a ref={downloadLinkRef}>
                   <Download size={16} />
@@ -163,14 +175,17 @@ export const ResponseViewer = () => {
             </div>
 
             <div className='relative'>
-              <pre className='bg-gray-50 p-4 rounded-lg overflow-auto max-h-96 text-sm'>
+              <pre
+                data-testid='response-body'
+                className='bg-gray-50 p-4 rounded-lg overflow-auto max-h-96 text-sm'
+              >
                 <code>{formattedResponse}</code>
               </pre>
             </div>
           </TabsContent>
 
           <TabsContent value='headers' className='space-y-2'>
-            <div className='bg-gray-50 rounded-lg p-4'>
+            <div className='bg-gray-50 rounded-lg p-4' data-testid='response-headers-table'>
               <table className='w-full text-sm'>
                 <thead>
                   <tr className='border-b'>

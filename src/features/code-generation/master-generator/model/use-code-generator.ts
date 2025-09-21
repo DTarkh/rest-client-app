@@ -1,12 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { HttpRequest } from '@/src/entities/http-request';
-import {
-  SupportedLanguage,
-  useCodeSnippetStore,
-  getLanguageConfig,
-} from '@/src/entities/code-snippet';
-import { substituteVariables, useVariableStore } from '@/src/entities/variable';
+import { HttpRequest } from '@/entities/http-request';
+import { SupportedLanguage, useCodeSnippetStore, getLanguageConfig } from '@/entities/code-snippet';
+import { substituteVariables, useVariableStore } from '@/entities/variable';
 import { CodeGenerator } from '../api/code-generator';
 
 type GenerateCodeParams = {

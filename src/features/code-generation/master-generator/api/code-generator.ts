@@ -1,5 +1,5 @@
-import { HttpRequest } from '@/src/entities/http-request';
-import { SupportedLanguage } from '@/src/entities/code-snippet';
+import { HttpRequest } from '@/entities/http-request';
+import { SupportedLanguage } from '@/entities/code-snippet';
 import { CurlGenerator } from '../../generate-curl/api/curl-generator';
 import { FetchGenerator } from '../../generate-javascript/api/fetch-generator';
 import { PythonRequestsGenerator } from '../../generate-python/api/requests-generator';

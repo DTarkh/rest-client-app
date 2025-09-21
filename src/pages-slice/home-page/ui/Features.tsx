@@ -1,6 +1,6 @@
 'use client';
 
-import { createI18nModule } from '@/src/shared/lib/i18n';
+import { createI18nModule } from '@/shared/lib/i18n';
 import { featuresTranstaltions } from '../i18n';
 
 const useI18n = createI18nModule(featuresTranstaltions);

@@ -34,13 +34,13 @@ vi.mock('next/link', () => {
   return { default: Link };
 });
 
-vi.mock('@/src/features/sign-out', () => ({
+vi.mock('@/features/sign-out', () => ({
   SignOutButton: () => <button>signout</button>,
 }));
-vi.mock('@/src/entities/session', () => ({
+vi.mock('@/entities/session', () => ({
   useSessionStore: () => ({ isLoading: false, user: null }),
 }));
-vi.mock('@/src/shared/constants', () => ({
+vi.mock('@/shared/constants', () => ({
   routes: { home: '/', client: '/client', login: '/login', register: '/register' },
 }));
 
@@ -48,7 +48,7 @@ function mockI18n(dict: Record<string, string>) {
   vi.doMock('../model/i18n', () => ({
     useI18n: () => ({ t: (k: string) => dict[k] ?? k }),
   }));
-  vi.doMock('@/src/features/i18n', () => ({
+  vi.doMock('@/features/i18n', () => ({
     UpdateLang: () => <button data-testid='lang-toggle'>lang</button>,
   }));
 }
@@ -67,7 +67,7 @@ describe('AppHeader i18n labels', () => {
       welcome: 'Welcome',
     });
 
-    const { AppHeader } = await import('../ui/AppHeader'); // import AFTER mocks
+    const { AppHeader } = await import('../ui/AppHeader');
     render(<AppHeader />);
 
     expect(screen.getByRole('link', { name: 'Sign In' })).toBeInTheDocument();

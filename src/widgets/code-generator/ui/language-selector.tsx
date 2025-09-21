@@ -2,15 +2,15 @@
 
 import { useState } from 'react';
 import { ChevronDown, Check } from 'lucide-react';
-import { Button } from '@/src/shared/ui/button';
+import { Button } from '@/shared/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/src/shared/ui/dropdown-menu';
-import { SupportedLanguage } from '@/src/entities/code-snippet';
-import { languageConfigs, getLanguageConfig } from '@/src/entities/code-snippet';
+} from '@/shared/ui/dropdown-menu';
+import { SupportedLanguage } from '@/entities/code-snippet';
+import { languageConfigs, getLanguageConfig } from '@/entities/code-snippet';
 
 type LanguageSelectorProps = {
   selectedLanguage: SupportedLanguage;

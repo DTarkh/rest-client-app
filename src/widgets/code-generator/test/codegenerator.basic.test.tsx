@@ -5,12 +5,8 @@ import React from 'react';
 
 import { CodeGenerator } from '../ui/code-generator';
 import { CodeViewer } from '../ui/code-viewer';
-import { useRequestStore } from '@/src/entities/http-request';
-import {
-  useCodeSnippetStore,
-  getLanguageConfig,
-  type CodeSnippet,
-} from '@/src/entities/code-snippet';
+import { useRequestStore } from '@/entities/http-request';
+import { useCodeSnippetStore, getLanguageConfig, type CodeSnippet } from '@/entities/code-snippet';
 
 vi.mock('sonner', () => ({
   toast: {
@@ -19,13 +15,11 @@ vi.mock('sonner', () => ({
   },
 }));
 
-// Mock code generator hook
 const mutateMock = vi.fn();
-vi.mock('@/src/features/code-generation', () => ({
+vi.mock('@/features/code-generation', () => ({
   useCodeGenerator: () => ({ mutate: mutateMock }),
 }));
 
-// Stub i18n
 vi.mock('../model/i18n', () => ({
   useI18n: () => ({
     t: (k: string) =>
@@ -47,7 +41,6 @@ vi.mock('../model/i18n', () => ({
   }),
 }));
 
-// helpers
 const h = {
   toast: vi.mocked(await import('sonner')).toast,
   mutateMock,
@@ -91,13 +84,10 @@ beforeEach(() => {
   vi.clearAllMocks();
   resetStores();
 
-  // Mock blob URL helpers
-
   global.URL.createObjectURL = vi.fn(() => 'blob:mock');
 
   global.URL.revokeObjectURL = vi.fn();
 
-  // Prevent JSDOM from navigating on <a>.click()
   anchorClickSpy = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
 });
 
@@ -135,11 +125,9 @@ describe('CodeGenerator – basic behavior', () => {
     render(<CodeGenerator />);
     h.mutateMock.mockClear();
 
-    // Radix dropdown trigger (button, not a native <select>)
     const trigger = screen.getByRole('button', { name: /curl/i });
     await userEvent.click(trigger);
 
-    // Select Python option
     const option = await screen.findByRole('menuitem', { name: /python/i });
     await userEvent.click(option);
 
@@ -154,7 +142,8 @@ describe('CodeGenerator – basic behavior', () => {
     setValidRequest();
     const lang = useCodeSnippetStore.getState().currentLanguage;
 
-    useCodeSnippetStore.setState(s => ({
+    useCodeSnippetStore.setState((s: any) => ({
+      // eslint-disable-line @typescript-eslint/no-explicit-any
       ...s,
       snippets: {
         ...s.snippets,
@@ -217,7 +206,6 @@ describe('CodeViewer – states', () => {
     };
     render(<CodeViewer snippet={snippet} />);
     expect(screen.getByText(/Generated code/i)).toBeInTheDocument();
-    // "curl" appears in badge + code, so assert at least 1 occurrence
     expect(screen.getAllByText(/curl/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/curl https:\/\/example\.test/i)).toBeInTheDocument();
   });

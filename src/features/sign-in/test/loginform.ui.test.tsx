@@ -63,7 +63,6 @@ describe('LoginForm – UI submit -> calls sign in hook', () => {
   });
 
   it('disables button when hook reports pending', async () => {
-    // flip the mocked hook to pending for this test
     hookState.isPending = true;
 
     render(<LoginForm />);

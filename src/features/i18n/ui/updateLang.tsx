@@ -1,8 +1,8 @@
 'use client';
-import { useLang } from '@/src/entities/i18n';
-import { cn } from '@/src/shared/lib/cn';
-import { UiSelect } from '@/src/shared/ui/lang-select';
-import type { Lang } from '@/src/entities/i18n';
+import { useLang } from '@/entities/i18n';
+import { cn } from '@/shared/lib/cn';
+import { UiSelect } from '@/shared/ui/lang-select';
+import type { Lang } from '@/entities/i18n';
 
 type LangOption = {
   id: Lang;

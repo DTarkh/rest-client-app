@@ -1,5 +1,5 @@
-import { AppHeader } from '@/src/widgets/app-header';
-import { Footer } from '@/src/widgets/footer';
+import { AppHeader } from '@/widgets/app-header';
+import { Footer } from '@/widgets/footer';
 
 import { Features } from './Features';
 import { Hero } from './Hero';

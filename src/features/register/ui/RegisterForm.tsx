@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { registerSchema, type RegisterFormData } from '../model/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { logger } from '@/src/shared/lib/logger';
+import { logger } from '@/shared/lib/logger';
 import { FormHeader } from './form-elements/FormHeader';
 import { FormInput } from './form-elements/FormInput';
 import { FormButton } from './form-elements/FormButton';

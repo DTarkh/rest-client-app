@@ -1,6 +1,6 @@
 import localforage from 'localforage';
 import { Variable } from '../model/variable.types';
-import { logger } from '@/src/shared/lib/logger';
+import { logger } from '@/shared/lib/logger';
 
 const STORAGE_KEY = 'swagger-lite-variables';
 
