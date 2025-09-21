@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import CourseLogo from '@/public/rss-logo.svg';
 import { useI18n } from '../model/i18n';
 
 export function Footer() {
@@ -26,14 +25,6 @@ export function Footer() {
               {t('authorAlina')}
             </Link>
             <Link
-              href='https://github.com/kelzerock'
-              target='_blank'
-              rel='noopener noreferrer'
-              className='text-sm text-gray-600 hover:text-gray-900 transition-colors'
-            >
-              {t('authorAleksei')}
-            </Link>
-            <Link
               href='https://github.com/DTarkh'
               target='_blank'
               rel='noopener noreferrer'
@@ -51,7 +42,7 @@ export function Footer() {
           className='flex items-center space-x-2 text-sm text-gray-600 hover:text-gray-900 transition-colors'
         >
           <div className='w-6 h-6 rounded flex items-center justify-center'>
-            <Image src={CourseLogo} alt='logo' width={100} height={100} />
+            <Image src='rss-logo.svg' alt='logo' width={100} height={100} />
           </div>
           <span>{t('footerViewCourse')}</span>
         </Link>
