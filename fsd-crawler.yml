@@ -1,0 +1,20 @@
+srcDir: '.'
+
+outputDir: './analysis-report'
+
+outputFormats:
+  - html
+
+excludeDirs:
+  - node_modules
+  - .git
+  - dist
+  - build
+  - coverage
+  - .husky
+  - .vscode
+  - .next
+  - public
+
+serveHTML: true
+port: 3123
