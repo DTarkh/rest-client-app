@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Send } from 'lucide-react';
-import { Button } from '@/src/shared/ui/button';
-import { Input } from '@/src/shared/ui/input';
+import { Button } from '@/shared/ui/button';
+import { Input } from '@/shared/ui/input';
 import { useI18n, type ErrorType } from '../model/i18n';
 
 type UrlInputProps = {
@@ -55,9 +55,10 @@ export const UrlInput = ({
   const shouldShowError = Boolean(error) && (touched || triedSubmit) && !isFocused;
 
   return (
-    <div className='flex gap-2'>
+    <div className='flex gap-2' data-testid='url-input-wrapper'>
       <div className='flex-1'>
         <Input
+          data-testid='request-url'
           value={localValue}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLocalValue(e.target.value)}
           onFocus={handleFocus}
@@ -76,6 +77,7 @@ export const UrlInput = ({
         }}
         disabled={isExecuting || !localValue.trim()}
         className='gap-2'
+        data-testid='execute-request'
       >
         <Send size={16} />
         {isExecuting ? t('sendingButton') : t('sendButton')}

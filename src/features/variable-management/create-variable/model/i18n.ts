@@ -1,4 +1,4 @@
-import { createI18nModule } from '@/src/shared/lib/i18n';
+import { createI18nModule } from '@/shared/lib/i18n';
 
 const errors = {
   nameRequiredError: {

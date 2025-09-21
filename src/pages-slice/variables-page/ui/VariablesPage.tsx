@@ -1,7 +1,7 @@
 'use client';
 
 import type { Metadata } from 'next';
-import { VariablesManager } from '@/src/widgets/variable-manager/';
+import { VariablesManager } from '@/widgets/variable-manager/';
 import { useI18n } from '../model/i18n';
 
 export const metadata: Metadata = {

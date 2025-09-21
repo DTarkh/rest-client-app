@@ -1,4 +1,4 @@
-import { logger } from '@/src/shared/lib/logger';
+import { logger } from '@/shared/lib/logger';
 import { HttpRequest, HttpMethod } from '../model/request.types';
 
 export function decodeRequestFromUrl(params: string[], searchParams: URLSearchParams): HttpRequest {

@@ -1,4 +1,4 @@
-import { HttpRequest } from '@/src/entities/http-request';
+import { HttpRequest } from '@/entities/http-request';
 
 export class FetchGenerator {
   static generate(request: HttpRequest): string {

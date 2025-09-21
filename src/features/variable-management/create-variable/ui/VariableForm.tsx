@@ -5,11 +5,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff, Plus, Edit } from 'lucide-react';
 import { toast } from 'sonner';
-import { Card, CardContent, CardHeader, CardTitle } from '@/src/shared/ui/card';
-import { Input } from '@/src/shared/ui/input';
-import { Button } from '@/src/shared/ui/button';
-import { Textarea } from '@/src/shared/ui/textarea';
-import { Checkbox } from '@/src/shared/ui/checkbox';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Input } from '@/shared/ui/input';
+import { Button } from '@/shared/ui/button';
+import { Textarea } from '@/shared/ui/textarea';
+import { Checkbox } from '@/shared/ui/checkbox';
 import { variableSchema, type VariableFormData } from '../model/validation';
 import { useI18n, type ErrorType } from '../model/i18n';
 
@@ -72,7 +72,7 @@ export const VariableForm = ({
   };
 
   return (
-    <Card>
+    <Card data-testid='variable-form'>
       <CardHeader>
         <CardTitle className='flex items-center gap-2'>
           {isEditing ? <Edit size={20} /> : <Plus size={20} />}
@@ -87,6 +87,7 @@ export const VariableForm = ({
             </label>
             <Input
               id='name'
+              data-testid='variable-name-input'
               placeholder={t('namePlaceholder') as string}
               {...register('name')}
               className={errors.name ? 'border-red-500' : ''}
@@ -119,6 +120,7 @@ export const VariableForm = ({
             <Input
               id='value'
               type={isSecret && !showValue ? 'password' : 'text'}
+              data-testid='variable-value-input'
               placeholder={t('valuePlaceholder') as string}
               {...register('value')}
               className={errors.value ? 'border-red-500' : ''}
@@ -156,7 +158,12 @@ export const VariableForm = ({
           </div>
 
           <div className='flex gap-4 pt-3 '>
-            <Button type='submit' disabled={isSubmitting} className='flex-1'>
+            <Button
+              type='submit'
+              disabled={isSubmitting}
+              className='flex-1'
+              data-testid='variable-submit-btn'
+            >
               {isSubmitting
                 ? isEditing
                   ? t('submitUpdating')

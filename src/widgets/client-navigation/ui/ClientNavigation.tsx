@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import React, { useState } from 'react';
-import ActiveLink from '@/src/shared/ui/active-link';
-import { routes } from '@/src/shared/constants';
-import { UpdateLang } from '@/src/features/i18n';
+import ActiveLink from '@/shared/ui/active-link';
+import { routes } from '@/shared/constants';
+import { UpdateLang } from '@/features/i18n';
 import { Menu, X } from 'lucide-react';
 import { useI18n } from '../model/i18n';
 

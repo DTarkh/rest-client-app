@@ -3,7 +3,7 @@ import { Variable, VariableState } from './variable.types';
 import { VariableStorage } from '../lib/storage';
 import { validateVariable } from '../lib/validate-variable';
 import { create } from 'zustand';
-import { logger } from '@/src/shared/lib/logger';
+import { logger } from '@/shared/lib/logger';
 import React from 'react';
 
 export const useVariableStore = create<VariableState>()(

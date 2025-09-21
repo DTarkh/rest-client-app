@@ -1,4 +1,4 @@
-import type { HttpRequest } from '@/src/entities/http-request';
+import type { HttpRequest } from '@/entities/http-request';
 
 export type HeaderKV = { key: string; value: string; enabled?: boolean };
 

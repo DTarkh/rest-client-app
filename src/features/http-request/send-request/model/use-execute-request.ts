@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { useResponseStore } from '@/src/entities/http-response';
+import { useResponseStore } from '@/entities/http-response';
 
 type ExecuteRequestData = {
   method: string;

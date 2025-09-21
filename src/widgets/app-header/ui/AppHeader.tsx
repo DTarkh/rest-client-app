@@ -3,12 +3,11 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { routes } from '@/src/shared/constants';
-import { UpdateLang } from '@/src/features/i18n';
+import { routes } from '@/shared/constants';
+import { UpdateLang } from '@/features/i18n';
 import { useI18n } from '../model/i18n';
-import { SignOutButton } from '@/src/features/sign-out';
-import { useSessionStore } from '@/src/entities/session';
-
+import { SignOutButton } from '@/features/sign-out';
+import { useSessionStore } from '@/entities/session';
 export function AppHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

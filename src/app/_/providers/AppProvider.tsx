@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { I18nProvider } from '@/src/shared/lib/i18n';
-import { useLang } from '@/src/entities/i18n';
-import Spinner from '@/src/shared/ui/spinner';
+import { I18nProvider } from '@/shared/lib/i18n';
+import { useLang } from '@/entities/i18n';
+import Spinner from '@/shared/ui/spinner';
 
 export function AppProvider({ children }: { children?: React.ReactNode }) {
   const { lang, loadLang, isLoading: isLoadingLng } = useLang();

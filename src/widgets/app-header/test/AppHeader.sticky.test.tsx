@@ -31,7 +31,7 @@ vi.mock('next/link', () => {
   return { default: Link };
 });
 
-vi.mock('@/src/features/i18n', () => ({
+vi.mock('@/features/i18n', () => ({
   UpdateLang: () => <div data-testid='update-lang' />,
 }));
 
@@ -39,15 +39,15 @@ vi.mock('../model/i18n', () => ({
   useI18n: () => ({ t: (k: string) => k }),
 }));
 
-vi.mock('@/src/entities/session', () => ({
+vi.mock('@/entities/session', () => ({
   useSessionStore: () => ({ isLoading: false, user: null }),
 }));
 
-vi.mock('@/src/features/sign-out', () => ({
+vi.mock('@/features/sign-out', () => ({
   SignOutButton: () => <button data-testid='signout'>signout</button>,
 }));
 
-vi.mock('@/src/shared/constants', () => ({
+vi.mock('@/shared/constants', () => ({
   routes: {
     home: '/',
     client: '/client',
@@ -71,11 +71,9 @@ describe('AppHeader sticky behavior', () => {
     render(<AppHeader />);
     const header = screen.getByRole('banner');
 
-    // Initially transparent
     expect(header.className).toContain('bg-transparent');
     expect(header.className).not.toContain('bg-white/90');
 
-    // Trigger scroll change within act and wait for update
     await act(async () => {
       setScrollY(100);
       window.dispatchEvent(new Event('scroll'));
@@ -88,7 +86,6 @@ describe('AppHeader sticky behavior', () => {
       expect(header.className).toContain('border-b');
     });
 
-    // Back to top
     await act(async () => {
       setScrollY(0);
       window.dispatchEvent(new Event('scroll'));
@@ -106,7 +103,8 @@ describe('AppHeader sticky behavior', () => {
 
     expect(header.className).toContain('bg-transparent');
 
-    const toggle = screen.getByRole('button'); // mobile menu toggle
+    const buttons = screen.getAllByRole('button');
+    const toggle = buttons[buttons.length - 1];
     fireEvent.click(toggle);
 
     expect(header.className).toContain('bg-white/90');

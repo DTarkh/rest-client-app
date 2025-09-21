@@ -6,7 +6,6 @@ import type { RegisterFormData } from '../model/validation';
 
 import { useSignUp } from '../model/use-sign-up';
 
-// --- mock next/navigation router
 const pushMock = vi.fn();
 vi.mock('next/navigation', () => ({
   useRouter: () => ({

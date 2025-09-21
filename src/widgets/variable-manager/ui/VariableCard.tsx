@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Eye, EyeOff, Edit, Trash2, Copy, Calendar, Hash } from 'lucide-react';
 import { toast } from 'sonner';
-import { Card, CardContent } from '@/src/shared/ui/card';
-import { Badge } from '@/src/shared/ui/badge';
-import { Button } from '@/src/shared/ui/button';
+import { Card, CardContent } from '@/shared/ui/card';
+import { Badge } from '@/shared/ui/badge';
+import { Button } from '@/shared/ui/button';
 import { useI18n } from '../model/i18n';
 import type { Variable } from '../../../entities/variable/';
 
@@ -54,6 +54,7 @@ export const VariableCard = ({
         isSelected ? 'ring-2 ring-blue-500' : ''
       }`}
       onClick={onClick}
+      data-testid='variable-card'
     >
       <CardContent className='p-4'>
         <div className='space-y-3'>
@@ -74,33 +75,36 @@ export const VariableCard = ({
               <Button
                 variant='ghost'
                 size='sm'
-                onClick={e => {
+                onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   copyName();
                 }}
                 className='h-7 w-7 p-0'
+                data-testid='copy-variable-name'
               >
                 <Hash size={14} />
               </Button>
               <Button
                 variant='ghost'
                 size='sm'
-                onClick={e => {
+                onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   onEdit(variable);
                 }}
                 className='h-7 w-7 p-0'
+                data-testid='edit-variable'
               >
                 <Edit size={14} />
               </Button>
               <Button
                 variant='ghost'
                 size='sm'
-                onClick={e => {
+                onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   handleDelete();
                 }}
                 className='h-7 w-7 p-0 text-red-500 hover:text-red-700'
+                data-testid='delete-variable'
               >
                 <Trash2 size={14} />
               </Button>
@@ -114,11 +118,12 @@ export const VariableCard = ({
                 <Button
                   variant='ghost'
                   size='sm'
-                  onClick={e => {
+                  onClick={(e: React.MouseEvent) => {
                     e.stopPropagation();
                     setShowValue(!showValue);
                   }}
                   className='h-6 w-6 p-0'
+                  data-testid='toggle-secret'
                 >
                   {showValue ? <EyeOff size={12} /> : <Eye size={12} />}
                 </Button>
@@ -126,16 +131,22 @@ export const VariableCard = ({
               <Button
                 variant='ghost'
                 size='sm'
-                onClick={e => {
+                onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   copyValue();
                 }}
                 className='h-6 w-6 p-0'
+                data-testid='copy-variable-value'
               >
                 <Copy size={12} />
               </Button>
             </div>
-            <div className='bg-gray-50 p-2 rounded text-sm font-mono break-all'>{displayValue}</div>
+            <div
+              className='bg-gray-50 p-2 rounded text-sm font-mono break-all'
+              data-testid='variable-value'
+            >
+              {displayValue}
+            </div>
           </div>
 
           {variable.description && (

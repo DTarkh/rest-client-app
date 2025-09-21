@@ -1,7 +1,7 @@
 'use client';
 
 import { LogOut } from 'lucide-react';
-import { Button } from '@/src/shared/ui/button';
+import { Button } from '@/shared/ui/button';
 import { useSignOut } from '../model/use-sign-out';
 import { useI18n } from '../model/i18n';
 

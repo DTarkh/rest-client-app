@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { Copy, Check } from 'lucide-react';
-import { Button } from '@/src/shared/ui/button';
+import { Button } from '@/shared/ui/button';
 import { toast } from 'sonner';
-import { logger } from '@/src/shared/lib/logger';
+import { logger } from '@/shared/lib/logger';
 import { useI18n } from '../model/i18n';
 
 type CopyButtonProps = {

@@ -3,6 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+// Путь к файлу из папки public должен быть абсолютным от корня (Next.js сам обслуживает /public)
+// Ранее использовался ошибочный алиас '@' к несуществующей папке src/public
+const COURSE_LOGO_SRC = '/rss-logo.svg';
 import { useI18n } from '../model/i18n';
 
 export function Footer() {
@@ -42,7 +45,7 @@ export function Footer() {
           className='flex items-center space-x-2 text-sm text-gray-600 hover:text-gray-900 transition-colors'
         >
           <div className='w-6 h-6 rounded flex items-center justify-center'>
-            <Image src='rss-logo.svg' alt='logo' width={100} height={100} />
+            <Image src={COURSE_LOGO_SRC} alt='logo' width={100} height={100} />
           </div>
           <span>{t('footerViewCourse')}</span>
         </Link>

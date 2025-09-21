@@ -1,22 +1,18 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Card } from '@/src/shared/ui/card';
-import { Button } from '@/src/shared/ui/button';
+import { Card } from '@/shared/ui/card';
+import { Button } from '@/shared/ui/button';
 import { Wand2, Download } from 'lucide-react';
-import { useRequestStore } from '@/src/entities/http-request';
-import {
-  useCodeSnippetStore,
-  SupportedLanguage,
-  getLanguageConfig,
-} from '@/src/entities/code-snippet';
-import { useCodeGenerator } from '@/src/features/code-generation';
+import { useRequestStore } from '@/entities/http-request';
+import { useCodeSnippetStore, SupportedLanguage, getLanguageConfig } from '@/entities/code-snippet';
+import { useCodeGenerator } from '@/features/code-generation';
 import { LanguageSelector } from './language-selector';
 import { CodeViewer } from './code-viewer';
 import { CopyButton } from './copy-button';
 import { toast } from 'sonner';
 import { useI18n } from '../model/i18n';
-import { useVariableSubstitution } from '@/src/entities/variable';
+import { useVariableSubstitution } from '@/entities/variable';
 
 export const CodeGenerator = () => {
   const { t } = useI18n();
@@ -75,18 +71,25 @@ export const CodeGenerator = () => {
   };
 
   return (
-    <div className='space-y-6'>
-      <Card className='p-6'>
+    <div data-testid='code-generator-root' className='space-y-6'>
+      <Card className='p-6' data-testid='code-generator-card'>
         <div className='space-y-4'>
           <div className='flex items-center justify-between'>
             <h2 className='text-xl font-semibold'>{t('title')}</h2>
             {currentSnippet?.code && (
               <div className='flex gap-2'>
                 <CopyButton
+                  data-testid='copy-code'
                   code={currentSnippet.code}
                   language={getLanguageConfig(currentLanguage).label}
                 />
-                <Button variant='outline' size='sm' onClick={downloadCode} className='gap-2'>
+                <Button
+                  data-testid='download-code'
+                  variant='outline'
+                  size='sm'
+                  onClick={downloadCode}
+                  className='gap-2'
+                >
                   <Download size={16} />
                   {t('downloadButton')}
                 </Button>
@@ -96,6 +99,7 @@ export const CodeGenerator = () => {
 
           <div className='flex items-center justify-between'>
             <LanguageSelector
+              data-testid='language-selector'
               selectedLanguage={currentLanguage}
               onLanguageChange={handleLanguageChange}
             />
@@ -106,6 +110,7 @@ export const CodeGenerator = () => {
               variant='outline'
               size='sm'
               className='gap-2'
+              data-testid='generate-code'
             >
               <Wand2 size={16} />
               {isGenerating

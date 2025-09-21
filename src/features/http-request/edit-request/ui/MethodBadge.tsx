@@ -1,6 +1,6 @@
 'use client';
 
-import type { HttpMethod } from '@/src/entities/http-request';
+import type { HttpMethod } from '@/entities/http-request';
 import { getMethodConfig } from '../model/constants';
 
 type MethodBadgeProps = {

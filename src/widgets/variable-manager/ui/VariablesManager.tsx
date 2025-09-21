@@ -3,12 +3,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Search, Download, Upload, FileText, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
-import { useVariableStore, type Variable } from '@/src/entities/variable';
-import { useInitializeVariables } from '@/src/entities/variable/';
-import { Card, CardContent, CardHeader, CardTitle } from '@/src/shared/ui/card';
-import { Input } from '@/src/shared/ui/input';
-import { Button } from '@/src/shared/ui/button';
-import { VariableForm } from '@/src/features/variable-management/';
+import { useVariableStore, type Variable } from '@/entities/variable';
+import { useInitializeVariables } from '@/entities/variable/';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card';
+import { Input } from '@/shared/ui/input';
+import { Button } from '@/shared/ui/button';
+import { VariableForm } from '@/features/variable-management/';
 import { VariableCard } from './VariableCard';
 import { useI18n } from '../model/i18n';
 import type { VariableFormData } from '../../../features/variable-management/';
@@ -132,7 +132,7 @@ export const VariablesManager = () => {
   }
 
   return (
-    <div className='space-y-6'>
+    <div className='space-y-6' data-testid='variables-manager-root'>
       <a ref={downloadLinkRef} className='hidden' />
       <input
         ref={fileInputRef}
@@ -142,7 +142,7 @@ export const VariablesManager = () => {
         className='hidden'
       />
 
-      <Card>
+      <Card data-testid='variables-search-card'>
         <CardHeader>
           <CardTitle>{t('title')}</CardTitle>
         </CardHeader>
@@ -154,9 +154,12 @@ export const VariablesManager = () => {
                 size={16}
               />
               <Input
+                data-testid='variables-search-input'
                 placeholder={t('searchPlaceholder') as string}
                 value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setSearchQuery(e.target.value)
+                }
                 className='pl-10'
               />
             </div>
@@ -166,6 +169,7 @@ export const VariablesManager = () => {
                 variant='outline'
                 onClick={() => setShowCreateForm(!showCreateForm)}
                 className='gap-2'
+                data-testid='add-variable-btn'
               >
                 <Plus size={16} />
                 {t('addButton')}
@@ -176,12 +180,18 @@ export const VariablesManager = () => {
                 onClick={handleExportVariables}
                 disabled={variables.length === 0}
                 className='gap-2'
+                data-testid='export-variables-btn'
               >
                 <Download size={16} />
                 {t('exportButton')}
               </Button>
 
-              <Button variant='outline' onClick={handleImportClick} className='gap-2'>
+              <Button
+                variant='outline'
+                onClick={handleImportClick}
+                className='gap-2'
+                data-testid='import-variables-btn'
+              >
                 <Upload size={16} />
                 {t('importButton')}
               </Button>
@@ -192,6 +202,7 @@ export const VariablesManager = () => {
 
       {(showCreateForm || editingVariable) && (
         <VariableForm
+          data-testid='variable-form'
           variable={editingVariable || undefined}
           onSubmit={editingVariable ? handleUpdateVariable : handleCreateVariable}
           onCancel={() => {
@@ -203,7 +214,7 @@ export const VariablesManager = () => {
       )}
 
       {filteredVariables.length === 0 ? (
-        <Card>
+        <Card data-testid='variables-empty-card'>
           <CardContent className='text-center py-12'>
             {variables.length === 0 ? (
               <>
@@ -225,8 +236,11 @@ export const VariablesManager = () => {
           </CardContent>
         </Card>
       ) : (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-          {filteredVariables.map(variable => (
+        <div
+          className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'
+          data-testid='variables-list'
+        >
+          {filteredVariables.map((variable: Variable) => (
             <VariableCard
               key={variable.id}
               variable={variable}

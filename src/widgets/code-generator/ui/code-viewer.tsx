@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
-import { Card } from '@/src/shared/ui/card';
-import { Badge } from '@/src/shared/ui/badge';
-import { Prism } from '@/src/shared/lib/prism-config';
-import { CodeSnippet } from '@/src/entities/code-snippet';
-import { logger } from '@/src/shared/lib/logger';
+import { Card } from '@/shared/ui/card';
+import { Badge } from '@/shared/ui/badge';
+import { Prism } from '@/shared/lib/prism-config';
+import { CodeSnippet } from '@/entities/code-snippet';
+import { logger } from '@/shared/lib/logger';
 import { useI18n } from '../model/i18n';
 
 type CodeViewerProps = {

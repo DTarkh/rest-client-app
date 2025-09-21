@@ -1,9 +1,9 @@
 'use client';
 import type React from 'react';
-import { Button } from '@/src/shared/ui/button';
+import { Button } from '@/shared/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { createI18nModule } from '@/src/shared/lib/i18n';
+import { createI18nModule } from '@/shared/lib/i18n';
 
 const useI18n = createI18nModule({
   backToHome: {

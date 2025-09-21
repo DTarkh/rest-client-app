@@ -1,4 +1,4 @@
-import type { HttpMethod } from '@/src/entities/http-request';
+import type { HttpMethod } from '@/entities/http-request';
 
 export type HttpMethodConfig = {
   value: HttpMethod;
