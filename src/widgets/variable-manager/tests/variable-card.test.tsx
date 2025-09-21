@@ -24,14 +24,8 @@ describe('VariableCard', () => {
   beforeEach(() => {
     onEdit.mockReset();
     onDelete.mockReset();
-    // mock confirm
     (global as unknown as { confirm: () => boolean }).confirm = vi.fn(() => true);
     confirmSpy = (global as unknown as { confirm: () => boolean }).confirm;
-    // mock clipboard
-    // toast.success уже замокан в setupTest через sonner
-    // гарантируем очистку счётчика
-    // @ts-ignore
-    toast.success.mockClear?.();
   });
 
   it('toggles secret value and performs copy & delete operations', async () => {

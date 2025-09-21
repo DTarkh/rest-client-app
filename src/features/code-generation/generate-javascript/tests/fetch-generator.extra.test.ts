@@ -24,7 +24,6 @@ describe('FetchGenerator additional branches', () => {
     type FGWithPrivate = { guessBody: (raw: string) => string };
     const ref = FetchGenerator as unknown as FGWithPrivate;
     const original = ref.guessBody;
-    // @ts-ignore intentional override for test
     ref.guessBody = () => {
       throw new Error('boom');
     };

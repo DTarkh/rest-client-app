@@ -89,9 +89,7 @@ describe('useExecuteRequest', () => {
   });
 
   it('handles network/server failure', async () => {
-    // Перехватываем и симулируем бросок fetch
     const originalFetch = global.fetch;
-    // @ts-ignore
     global.fetch = vi.fn(() => Promise.reject(new Error('Network failure')));
     const { result } = renderHook(() => useExecuteRequest(), { wrapper });
     await act(async () => {
