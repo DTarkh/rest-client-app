@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useSessionStore } from '@/src/entities/session/model/session.store';
+import Spinner from '@/src/shared/ui/spinner';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -27,11 +28,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, [refresh, setSession, router]);
 
-  if (isLoading)
-    return (
-      <div className='min-h-screen flex items-center justify-center'>
-        <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600'></div>
-      </div>
-    );
+  if (isLoading) return <Spinner />;
   return <>{children}</>;
 }

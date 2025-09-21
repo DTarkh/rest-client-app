@@ -7,7 +7,7 @@ export function ClientPage() {
   const { t } = useI18n();
 
   return (
-    <div className='p-4'>
+    <div className='p-8'>
       <div className='min-h-screen pt-20 md:pl-64'>
         <h1 className='text-gray-600 mt-2 mb-2'>{t('pageTitle')}</h1>
 
@@ -18,7 +18,7 @@ export function ClientPage() {
           <div>
             <CodeGenerator />
           </div>
-          <div>
+          <div className='pb-30 sm:pb-20'>
             <ResponseViewer />
           </div>
         </div>

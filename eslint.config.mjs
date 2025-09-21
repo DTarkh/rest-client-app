@@ -10,6 +10,17 @@ import globals from 'globals';
 
 const eslintConfig = [
   js.configs.recommended,
+
+  {
+    plugins: {
+      '@next/next': nextPlugin,
+    },
+    rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs['core-web-vitals'].rules,
+    },
+  },
+
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
     ignores: [
@@ -28,9 +39,7 @@ const eslintConfig = [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
-        ecmaFeatures: {
-          jsx: true,
-        },
+        ecmaFeatures: { jsx: true },
       },
       globals: {
         ...globals.node,
@@ -46,50 +55,20 @@ const eslintConfig = [
       '@typescript-eslint': typescriptEslint,
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
-      '@next/next': nextPlugin,
       boundaries: boundaries,
     },
     settings: {
-      'import/resolver': {
-        typescript: {
-          alwaysTryTypes: true,
-        },
-      },
-      react: {
-        version: 'detect',
-      },
+      'import/resolver': { typescript: { alwaysTryTypes: true } },
+      react: { version: 'detect' },
       'boundaries/include': ['src/**/*'],
       'boundaries/ignore': ['src/middleware.{js,ts}'],
       'boundaries/elements': [
-        {
-          type: 'app',
-          pattern: 'app',
-        },
-        {
-          type: 'pages',
-          pattern: 'pages-slice/*',
-          capture: ['page'],
-        },
-        {
-          type: 'widgets',
-          pattern: 'widgets/*',
-          capture: ['widget'],
-        },
-        {
-          type: 'features',
-          pattern: 'features/*',
-          capture: ['feature'],
-        },
-        {
-          type: 'entities',
-          pattern: 'entities/*',
-          capture: ['entity'],
-        },
-        {
-          type: 'shared',
-          pattern: 'shared/*',
-          capture: ['segment'],
-        },
+        { type: 'app', pattern: 'app' },
+        { type: 'pages', pattern: 'pages-slice/*', capture: ['page'] },
+        { type: 'widgets', pattern: 'widgets/*', capture: ['widget'] },
+        { type: 'features', pattern: 'features/*', capture: ['feature'] },
+        { type: 'entities', pattern: 'entities/*', capture: ['entity'] },
+        { type: 'shared', pattern: 'shared/*', capture: ['segment'] },
       ],
     },
     rules: {
@@ -99,10 +78,7 @@ const eslintConfig = [
 
       '@typescript-eslint/no-unused-vars': [
         'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-        },
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/no-explicit-any': 'warn',
@@ -123,30 +99,12 @@ const eslintConfig = [
         {
           default: 'disallow',
           rules: [
-            {
-              target: [['shared', { segment: 'lib' }]],
-              allow: '*/index.ts',
-            },
-            {
-              target: [['shared', { segment: 'lib' }]],
-              allow: '*.(ts|tsx)',
-            },
-            {
-              target: [['shared', { segment: 'constants' }]],
-              allow: 'index.ts',
-            },
-            {
-              target: [['shared', { segment: 'types' }]],
-              allow: 'index.ts',
-            },
-            {
-              target: [['shared', { segment: 'config' }]],
-              allow: '*.(ts|tsx)',
-            },
-            {
-              target: [['shared', { segment: '(ui|api)' }]],
-              allow: '**',
-            },
+            { target: [['shared', { segment: 'lib' }]], allow: '*/index.ts' },
+            { target: [['shared', { segment: 'lib' }]], allow: '*.(ts|tsx)' },
+            { target: [['shared', { segment: 'constants' }]], allow: 'index.ts' },
+            { target: [['shared', { segment: 'types' }]], allow: 'index.ts' },
+            { target: [['shared', { segment: 'config' }]], allow: '*.(ts|tsx)' },
+            { target: [['shared', { segment: '(ui|api)' }]], allow: '**' },
             {
               target: ['app', 'pages', 'widgets', 'features', 'entities'],
               allow: 'index.(ts|tsx)',
@@ -155,10 +113,7 @@ const eslintConfig = [
               target: ['app', 'pages', 'widgets', 'features', 'entities'],
               allow: 'pub/*.(ts|tsx)',
             },
-            {
-              target: ['test'],
-              allow: '**',
-            },
+            { target: ['test'], allow: '**' },
           ],
         },
       ],
@@ -223,6 +178,7 @@ const eslintConfig = [
       ],
     },
   },
+
   prettierConfig,
 ];
 

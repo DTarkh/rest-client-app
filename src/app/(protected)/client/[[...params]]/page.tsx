@@ -1,43 +1,43 @@
 'use client';
 
-import { use, useEffect, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useEffect, useMemo } from 'react';
+import { useParams, useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { useRequestStore } from '@/src/entities/http-request';
 import { decodeRequestFromUrl } from '@/src/entities/http-request/';
-import { ClientPage } from '@/src/pages-slice/client-page';
 import { logger } from '@/src/shared/lib/logger';
 
-type Props = { params: Promise<{ params: string[] }> };
+const ClientPage = dynamic(() => import('@/src/pages-slice/client-page').then(m => m.ClientPage), {
+  ssr: false,
+  loading: () => <div className='p-6 text-sm text-gray-600'>Loading…</div>,
+});
 
-export default function DynamicRestClientPage({ params }: Props) {
-  const searchParams = useSearchParams();
-  const sp = useMemo(() => new URLSearchParams(searchParams?.toString() ?? ''), [searchParams]);
+export default function DynamicRestClientPage() {
+  const routeParams = useParams() as { params?: string[] };
+  const spHook = useSearchParams();
+  const sp = useMemo(() => new URLSearchParams(spHook?.toString() ?? ''), [spHook]);
 
   const setMethod = useRequestStore(s => s.setMethod);
   const setUrl = useRequestStore(s => s.setUrl);
   const setHeaders = useRequestStore(s => s.setHeaders);
   const setBody = useRequestStore(s => s.setBody);
   const resetRequest = useRequestStore(s => s.resetRequest);
-  const requestParams = use(params);
 
   useEffect(() => {
-    if (requestParams.params?.length) {
+    if (routeParams?.params?.length) {
       try {
-        const decodedRequest = decodeRequestFromUrl(requestParams.params, sp);
-
-        setMethod(decodedRequest.method);
-        setUrl(decodedRequest.url);
-        setHeaders(decodedRequest.headers);
-        setBody(
-          decodedRequest.body,
-          decodedRequest.bodyType === 'none' ? undefined : decodedRequest.bodyType,
-        );
+        const decoded = decodeRequestFromUrl(routeParams.params, sp);
+        setMethod(decoded.method);
+        setUrl(decoded.url);
+        setHeaders(decoded.headers);
+        setBody(decoded.body, decoded.bodyType === 'none' ? undefined : decoded.bodyType);
       } catch {
         logger('Failed to decode request from URL parameters');
       }
     }
     return () => resetRequest();
-  }, [requestParams.params, sp, setMethod, setUrl, setHeaders, setBody, resetRequest]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [routeParams?.params, sp]);
 
   return <ClientPage />;
 }
