@@ -1,12 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { redirectMock, nextMock, getUserMock } = vi.hoisted(() => {
-  return {
-    redirectMock: vi.fn((url: any) => ({ type: 'redirect', url })),
-    nextMock: vi.fn(() => ({ type: 'next' })),
-    // Default: guest (no user)
-    getUserMock: vi.fn().mockResolvedValue({ data: { user: null }, error: null }),
-  };
+  type GetUserResult = { data: { user: { id: string } | null }; error: null };
+
+  const redirectMock = vi.fn((url: URL) => ({ type: 'redirect' as const, url }));
+  const nextMock = vi.fn(() => ({ type: 'next' as const }));
+
+  const getUserMock = vi
+    .fn<() => Promise<GetUserResult>>()
+    .mockResolvedValue({ data: { user: null }, error: null });
+
+  return { redirectMock, nextMock, getUserMock };
 });
 
 vi.mock('next/server', () => ({
@@ -26,11 +30,19 @@ vi.mock('@supabase/auth-helpers-nextjs', () => ({
 
 import { middleware } from '../../../middleware';
 
-function makeReq(pathname: string, cookieMap: Record<string, string> = {}) {
-  return {
+type MW = typeof middleware;
+type MWReq = Parameters<MW>[0];
+type MWRes = Awaited<ReturnType<MW>>;
+
+function makeReq(pathname: string, cookieMap: Record<string, string> = {}): MWReq {
+  const base = 'https://example.test';
+  const full = new URL(pathname, base);
+
+  const reqLike = {
+    url: full.toString(),
     nextUrl: {
-      pathname,
-      search: '',
+      pathname: full.pathname,
+      search: full.search,
       clone() {
         return {
           pathname: this.pathname,
@@ -43,16 +55,19 @@ function makeReq(pathname: string, cookieMap: Record<string, string> = {}) {
     },
     cookies: {
       get(name: string) {
-        return cookieMap[name] ? { name, value: cookieMap[name] } : undefined;
+        const value = cookieMap[name];
+        return value ? { name, value } : undefined;
       },
     },
-    headers: new Map(),
-  } as unknown as Parameters<typeof middleware>[0];
+    headers: new Map<string, string>(),
+  } as unknown as MWReq;
+
+  return reqLike;
 }
 
-async function run(mw: any, req: any) {
+async function run(mw: MW, req: MWReq): Promise<MWRes> {
   const out = mw(req);
-  return out instanceof Promise ? await out : out;
+  return out instanceof Promise ? await out : (out as MWRes);
 }
 
 beforeEach(() => {
@@ -63,29 +78,26 @@ beforeEach(() => {
 
 describe('middleware route protection', () => {
   it('redirects GUEST from protected route (/client)', async () => {
-    const req = makeReq('/client'); // unauthenticated
+    const req = makeReq('/client');
     const res = await run(middleware, req);
 
     expect(redirectMock).toHaveBeenCalledTimes(1);
     const [urlArg] = redirectMock.mock.calls[0];
-
     expect(urlArg.pathname).toBe('/login');
     expect(res).toEqual({ type: 'redirect', url: urlArg });
   });
 
   it('redirects GUEST from protected route (/variables)', async () => {
-    const req = makeReq('/variables'); // unauthenticated
+    const req = makeReq('/variables');
     const res = await run(middleware, req);
 
     expect(redirectMock).toHaveBeenCalledTimes(1);
     const [urlArg] = redirectMock.mock.calls[0];
-
     expect(urlArg.pathname).toBe('/login');
     expect(res).toEqual({ type: 'redirect', url: urlArg });
   });
 
   it('allows AUTHED user to access protected route (/client)', async () => {
-    // Simulate logged-in user
     getUserMock.mockResolvedValueOnce({ data: { user: { id: 'u1' } }, error: null });
 
     const req = makeReq('/client');
@@ -95,8 +107,8 @@ describe('middleware route protection', () => {
     expect(nextMock).toHaveBeenCalledTimes(1);
     expect(res).toEqual({ type: 'next' });
   });
+
   it('allows AUTHED user to access protected route (/variables)', async () => {
-    // Simulate logged-in user
     getUserMock.mockResolvedValueOnce({ data: { user: { id: 'u1' } }, error: null });
 
     const req = makeReq('/variables');
@@ -124,7 +136,6 @@ describe('middleware route protection', () => {
 
     expect(redirectMock).toHaveBeenCalledTimes(1);
     const [urlArg] = redirectMock.mock.calls[0];
-
     expect(urlArg.pathname).toBe('/');
   });
 
@@ -136,7 +147,6 @@ describe('middleware route protection', () => {
 
     expect(redirectMock).toHaveBeenCalledTimes(1);
     const [urlArg] = redirectMock.mock.calls[0];
-
     expect(urlArg.pathname).toBe('/');
   });
 });
