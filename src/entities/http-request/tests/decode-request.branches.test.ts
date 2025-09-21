@@ -1,30 +1,27 @@
 import { describe, it, expect, vi } from 'vitest';
 import { decodeRequestFromUrl } from '../lib/decode-request';
+import { logger } from '@/shared/lib/logger';
+
+vi.mock('@/shared/lib/logger', () => ({ logger: vi.fn() }));
 
 // Helpers
 const b64 = (s: string) => Buffer.from(s, 'utf8').toString('base64');
 const encBody = (s: string) => b64(encodeURIComponent(s));
 
-// Spy on logger output (logger uses console.log in dev). We stub NODE_ENV to development.
-vi.stubEnv('NODE_ENV', 'development');
-
 describe('decodeRequestFromUrl branches', () => {
   it('gracefully handles invalid base64 url part', () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    const [method, encodedUrl] = ['GET', '%%%bad%%%'];
-    const result = decodeRequestFromUrl([method, encodedUrl], new URLSearchParams());
-    expect(result.url).toBe('');
-    expect(logSpy).toHaveBeenCalled();
-    logSpy.mockRestore();
+    const result = decodeRequestFromUrl(['GET', '%%%bad%%%'], new URLSearchParams());
+
+    expect(result.url).toBe('%%%bad%%%');
+    expect(logger).toHaveBeenCalledWith('Failed to decode URL from parameters');
   });
 
   it('gracefully handles invalid base64 body part', () => {
-    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     const params = ['POST', b64('http://example.com'), '%%%bad%%%'];
     const result = decodeRequestFromUrl(params, new URLSearchParams());
+
     expect(result.body).toBe('');
-    expect(logSpy).toHaveBeenCalled();
-    logSpy.mockRestore();
+    expect(logger).toHaveBeenCalledWith('Failed to decode body from parameters');
   });
 
   it('classifies bodyType=json when JSON parses', () => {
