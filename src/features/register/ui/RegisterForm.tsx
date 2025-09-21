@@ -7,7 +7,7 @@ import { FormHeader } from './form-elements/FormHeader';
 import { FormInput } from './form-elements/FormInput';
 import { FormButton } from './form-elements/FormButton';
 import { useI18n, type ErrorType } from '../model/i18n';
-import { useSignUp } from '../model/use-sign-in';
+import { useSignUp } from '../model/use-sign-up';
 
 export const RegisterForm = () => {
   const { t } = useI18n();
