@@ -41,9 +41,6 @@ export function ClientNavigation() {
             <li>
               <ActiveLink href={routes.variables}>🌐 {t('variables')}</ActiveLink>
             </li>
-            <li>
-              <ActiveLink href={routes.history}>🕒 {t('history')}</ActiveLink>
-            </li>
           </ul>
         </nav>
       </aside>
@@ -65,13 +62,6 @@ export function ClientNavigation() {
               className='text-sm font-medium  hover:text-gray-600 transition-colors text-gray-800'
             >
               🌐 {t('variables')}
-            </Link>
-            <Link
-              onClick={() => setIsMobileMenuOpen(false)}
-              href={routes.history}
-              className='text-sm font-medium  hover:text-gray-600 transition-colors  text-gray-800'
-            >
-              🕒 {t('history')}
             </Link>
           </nav>
         </div>
