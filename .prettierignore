@@ -1,0 +1,14 @@
+# Игнорируем файлы при форматировании Prettier
+node_modules/
+.next/
+out/
+build/
+*.min.js
+*.min.css
+coverage/
+.nyc_output/
+dist/
+.eslintcache
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
